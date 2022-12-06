@@ -2,12 +2,15 @@ import React from "react";
 import classes from "./Profile.module.css"
 import MyPosts from "./MyPosts/MyPosts";
 
+
+
+
 const Profile = () => {
     return (
         <div className={classes.content}>
             <div>
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4mYAeykNjPS5oMZ8-n6lc2my3fgr51M0_Zg&usqp=CAU"
+                <img className={classes.imgTop}
+                    src="https://img.freepik.com/premium-photo/winter-landscape-frozen-river-trees-neon-sunset-winter-park-3d-render-raster-illustration_717906-639.jpg?"
                     alt="porshe"/>
             </div>
             <MyPosts/>
