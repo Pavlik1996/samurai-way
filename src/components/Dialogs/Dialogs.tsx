@@ -1,9 +1,13 @@
 import s from "./Dialogs.module.css"
 
-export const Dialogs = (props: any) => {
+type DialogsType = {
+    title: string
+}
+
+export const Dialogs = (props: DialogsType) => {
     return (
         <div>
-            Dialogs
+            {props.title}
         </div>
     )
 }

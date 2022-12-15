@@ -1,7 +1,12 @@
-export const News = (props: any) => {
+
+type NewsType = {
+    title: string
+}
+
+export const News = (props: NewsType) => {
     return (
         <div>
-            News
+            {props.title}
         </div>
     )
 }

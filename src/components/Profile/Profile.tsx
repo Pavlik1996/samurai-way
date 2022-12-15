@@ -2,8 +2,11 @@ import React from "react";
 import classes from "./Profile.module.css"
 import MyPosts from "./MyPosts/MyPosts";
 
+type ProfileType = {
+    title: string
+}
 
-const Profile = () => {
+const Profile = (props: ProfileType) => {
     return (
         <div>
             <div>
