@@ -4,12 +4,6 @@ import Post from "./Post/Post";
 
 
 const MyPosts = () => {
-    const textMessage_1: string = "Вiтаю"
-    const textMessage_2: string = "Добры настрой !"
-    const textMessage_3: string = "П'ю гарбату з лімонам і мятай."
-    const textMessage_4: string = "Збіраюся выйсці на праменад"
-    const textMessage_5: string = "На вуліцы марозна!"
-
     return (
         <div>
             <div>
@@ -19,11 +13,11 @@ const MyPosts = () => {
             <button>Add post</button>
         </div>
             </div>
-               <Post message={textMessage_1} likeCount={13}/>
-               <Post message={textMessage_2} likeCount={77}/>
-               <Post message={textMessage_3} likeCount={15}/>
-               <Post message={textMessage_4} likeCount={99}/>
-               <Post message={textMessage_5} likeCount={88}/>
+               <Post message={"Вiтаю"} likeCount={13}/>
+               <Post message={"Добры настрой !"} likeCount={77}/>
+               <Post message={"П'ю гарбату з лімонам і мятай."} likeCount={15}/>
+               <Post message={"Збіраюся выйсці на праменад"} likeCount={99}/>
+               <Post message={"На вуліцы марозна!"} likeCount={88}/>
         </div>
 
     )
