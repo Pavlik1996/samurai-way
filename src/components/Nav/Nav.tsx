@@ -12,7 +12,7 @@ const Nav = (props: any) => {
                                                     className={navData => navData.isActive ? s.active : s.item}>Messages</NavLink>
             </div>
             <div><NavLink to="/news"
-                          className={navData => navData.isActive ? s.active : s.item}>News</NavLink>
+                          className={navData => navData.isActive ? s.active : s.item} >News</NavLink>
             </div>
             <div><NavLink to="/music"
                           className={navData => navData.isActive ? s.active : s.item}>Music</NavLink>

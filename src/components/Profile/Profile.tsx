@@ -1,6 +1,7 @@
 import React from "react";
-import classes from "./Profile.module.css"
+import classes from "./ProfileInfo.module.css"
 import MyPosts from "./MyPosts/MyPosts";
+import ProfileInfo from "./Profileinfo/Profileinfo";
 
 type ProfileType = {
     title: string
@@ -9,11 +10,7 @@ type ProfileType = {
 const Profile = (props: ProfileType) => {
     return (
         <div>
-            <div>
-                <img className={classes.imgTop}
-                     src="https://img.freepik.com/premium-photo/winter-landscape-frozen-river-trees-neon-sunset-winter-park-3d-render-raster-illustration_717906-639.jpg?"
-                     alt="porshe"/>
-            </div>
+            <ProfileInfo title={"ProfileInfo"}/>
             <MyPosts/>
         </div>
     )
