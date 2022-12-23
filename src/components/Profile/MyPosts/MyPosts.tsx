@@ -1,17 +1,20 @@
 import React from "react";
 import Post from "./Post/Post";
 import s from "./MyPosts.module.css"
+import post from "./Post/Post";
 
 
 const MyPosts = () => {
 
-    let postsData = [
+    let posts= [
         {id: 1, messages: 'Вiтаю', like: 88},
         {id: 2, messages: 'Добры настрой !', like: 88},
         {id: 3, messages: 'П\'ю гарбату з лімонам і мятай.', like: 88},
         {id: 4, messages: 'Збіраюся выйсці на праменад', like: 88},
         {id: 5, messages: 'На вуліцы марозна!', like: 88},
     ]
+
+    let postsElements = posts.map(p => <Post message={p.messages} likeCount={p.like}/>)
 
     return (
         <div className={s.pastBlock}>
@@ -30,11 +33,8 @@ const MyPosts = () => {
                 </div>
             </div>
             <div className={s.posts}>
-                <Post message={postsData[0].messages} likeCount={postsData[0].like}/>
-                <Post message={postsData[1].messages} likeCount={postsData[1].like}/>
-                <Post message={postsData[2].messages} likeCount={postsData[2].like}/>
-                <Post message={postsData[3].messages} likeCount={postsData[3].like}/>
-                <Post message={postsData[4].messages} likeCount={postsData[4].like}/>
+
+                {postsElements}
 
             </div>
         </div>
