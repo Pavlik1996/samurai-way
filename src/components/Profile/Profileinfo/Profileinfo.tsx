@@ -11,7 +11,7 @@ const ProfileInfo = (props: ProfileType) => {
             <div>
                 <img className={s.imgTop}
                      src="https://img.freepik.com/premium-photo/winter-landscape-frozen-river-trees-neon-sunset-winter-park-3d-render-raster-illustration_717906-639.jpg?"
-                     alt="porshe"/>
+                     alt="photo"/>
             </div>
             <div className={s.descriptionBlock}>
                 ava + description
