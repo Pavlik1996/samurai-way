@@ -12,6 +12,7 @@ export type PostsType = {
 
 export type ProfilePageTpe = {
     posts: PostsType[],
+    newPostText: string
 
 }
 
@@ -30,6 +31,7 @@ export type RootStateType = {
 
 }
 
+
 export const state: RootStateType = {
     profilePage: {
         posts: [
@@ -39,6 +41,7 @@ export const state: RootStateType = {
             {id: 4, messages: 'Збіраюся выйсці на праменад', like: 88},
             {id: 5, messages: 'На вуліцы марозна!', like: 88},
         ],
+        newPostText: 'it-kamasutra.com'
     },
     dialogsPage: {
         dialogs: [
@@ -59,10 +62,17 @@ export const state: RootStateType = {
 }
 
 
-export const addPost = (titlePost: string) => {
+export const addPost = () => {
     const newPost: PostsType = {
-        id: 6, messages: titlePost, like: 0
+        id: 6, messages: state.profilePage.newPostText, like: 0
     }
     state.profilePage.posts.push(newPost)
+    state.profilePage.newPostText = ''
+    rerenderEntireTree(state)
+}
+
+
+export const updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText
     rerenderEntireTree(state)
 }

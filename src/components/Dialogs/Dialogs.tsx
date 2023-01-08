@@ -31,9 +31,10 @@ export const Dialogs = (props: DialogsPropsType) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
+                <textarea ref={newMessagePost}></textarea>
+                <button onClick={onClickHandler}>qq</button>
             </div>
-            <textarea ref={newMessagePost}></textarea>
-            <button onClick={onClickHandler}>qq</button>
+
         </div>
     )
 }

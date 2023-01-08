@@ -4,7 +4,9 @@ import s from "./MyPosts.module.css"
 
 type MyPostsType = {
     posts: PostsType[]
-    addPost: (title: string) => void
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
+    newPostText: string
 }
 type PostsType = {
     id: number,
@@ -18,12 +20,17 @@ const MyPosts = (props: MyPostsType) => {
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
+            props.addPost()
+            // props.updateNewPostText('')  будем обнулять в state
+    }
+
+    const onPostChange = () => {
         if (newPostElement.current?.value) {
             const text = newPostElement.current?.value
-            props.addPost(text)
-            newPostElement.current.value = ''
+            props.updateNewPostText(text)
         }
     }
+
     return (
         <div className={s.pastBlock}>
             <div>
@@ -32,10 +39,16 @@ const MyPosts = (props: MyPostsType) => {
                 </h3>
                 <div>
                     <div>
-                        <textarea ref={newPostElement}></textarea>
+                        <textarea
+                            onChange={onPostChange}
+                            ref={newPostElement}
+                            value={props.newPostText}
+                        />
                     </div>
                     <div>
-                        <button onClick={addPost}>Add post</button>
+                        <button
+                            onClick={addPost}
+                        >Add post</button>
                     </div>
                 </div>
             </div>
