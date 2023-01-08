@@ -1,5 +1,3 @@
-import {rerenderEntireTree} from "../render";
-
 export type DialogsType = {
     id: number, name: string
 }
@@ -30,6 +28,8 @@ export type RootStateType = {
     sidebar: SidebarType
 
 }
+
+let rerenderEntireTree = (state: RootStateType) => {}
 
 
 export const state: RootStateType = {
@@ -75,4 +75,8 @@ export const addPost = () => {
 export const updateNewPostText = (newText: string) => {
     state.profilePage.newPostText = newText
     rerenderEntireTree(state)
+}
+
+export const subscribe = (observer: (state: RootStateType) => void) => {
+    rerenderEntireTree = observer    // наблюдетель, передаем функцию в другую функцию
 }
