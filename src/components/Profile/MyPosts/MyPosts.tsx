@@ -1,12 +1,14 @@
 import React, {ChangeEvent, useState} from "react";
 import Post from "./Post/Post";
 import s from "./MyPosts.module.css"
+import {ActionsType} from "../../../redux/state";
 
 type MyPostsType = {
     posts: PostsType[]
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    // addPost: (postText: string) => void
+    // updateNewPostText: (newText: string) => void
     newPostText: string
+    dispatch: (action: ActionsType) => void
 }
 type PostsType = {
     id: number,
@@ -19,15 +21,15 @@ const MyPosts = (props: MyPostsType) => {
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
+    const [text, setText] = useState('')
+
     const addPost = () => {
-        props.addPost()
+        props.dispatch({type: "ADD-POST", postText: text})
+        setText('')
     }
 
-    const onPostChange = () => {
-        if (newPostElement.current?.value) {
-            const text = newPostElement.current?.value
-            props.updateNewPostText(text)
-        }
+    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setText(e.currentTarget.value)
     }
 
     return (
@@ -40,8 +42,8 @@ const MyPosts = (props: MyPostsType) => {
                     <div>
                         <textarea
                             onChange={onPostChange}
-                            ref={newPostElement}
-                            value={props.newPostText}
+                            // ref={newPostElement}
+                            value={text}
                         />
                     </div>
                     <div>

@@ -7,19 +7,16 @@ export type MessagesType = {
 export type PostsType = {
     id: number, messages: string, like: number
 }
-
 export type ProfilePageTpe = {
     posts: PostsType[],
     newPostText: string
 
 }
-
 export type MessagesPageType = {
     messages: MessagesType[],
     dialogs: DialogsType[],
 
 }
-
 type SidebarType = {}
 
 export type RootStateType = {
@@ -31,12 +28,24 @@ export type RootStateType = {
 
 export type StoreType = {
     _state: RootStateType,
-    changeNewText: (newText: string) => void,
-    addPost: () => void,
     subscribe: (callback: () => void) => void,
     _onChange: () => void,
-    getState: () => RootStateType
+    getState: () => RootStateType,
+    dispatch: (action: ActionsType) => void
 }
+
+type AddPostActionType = {
+    type: 'ADD-POST'
+    postText: string
+}
+
+type ChangeNewTextActionType = {
+    type: 'CHANGE-NEW-TEXT'
+    newText: string
+}
+
+export type ActionsType = AddPostActionType | ChangeNewTextActionType
+
 
 export let store: StoreType = {
     _state: {
@@ -67,28 +76,25 @@ export let store: StoreType = {
         },
         sidebar: {}
     },
-    addPost() {
-        const newPost: PostsType = {
-            id: 6, messages: this._state.profilePage.newPostText, like: 0
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ''
-        this._onChange()
-    },
-
     _onChange() {
         console.log('state changed')
-    },
-    changeNewText(newText: string) {
-        this._state.profilePage.newPostText = newText
-        this._onChange()
     },
     subscribe(callback) {
         this._onChange = callback   // наблюдетель, передаем функцию в другую функцию
     },
     getState() {
         return this._state
-    }
+    },
+    dispatch(action) { // описывает действие которые нужно совершить
+        if (action.type === 'ADD-POST') {
+            const newPost: PostsType = {id: 6, messages: action.postText, like: 0}
+            this._state.profilePage.posts.push(newPost)
+            this._onChange()
+        } else if (action.type === 'CHANGE-NEW-TEXT') {
+            this._state.profilePage.newPostText = action.newText
+            this._onChange()
+        }
+    },
 
 }
 

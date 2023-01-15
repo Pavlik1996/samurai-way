@@ -25,7 +25,6 @@ export const App: React.FC<PropsType> = (props) => {
 
     const state = props.store.getState()
 
-
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -35,8 +34,10 @@ export const App: React.FC<PropsType> = (props) => {
                     <Routes>
                         <Route path="/profile" element={<Profile
                             profilePage={props.store._state.profilePage}
-                            addPost={props.store.addPost.bind(props.store)}
-                            updateNewPostText={props.store.changeNewText.bind(props.store)}/>
+                            // addPost={props.store.addPost.bind(props.store)}
+                            // updateNewPostText={props.store.changeNewText.bind(props.store)}
+                            dispatch={props.store.dispatch.bind(props.store)}
+                        />
                         }/>
                         <Route path="/dialogs*" element={<Dialogs state={props.store._state.dialogsPage}/>}/>
                         <Route path="/news" element={<News title={"News"}/>}/>
