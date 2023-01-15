@@ -5,7 +5,6 @@ import {ProfilePageTpe} from "../../redux/state";
 
 
 type ProfileType = {
-    title: string
     profilePage: ProfilePageTpe
     addPost: () => void
     updateNewPostText: (newText: string) => void

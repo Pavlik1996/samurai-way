@@ -20,8 +20,7 @@ const MyPosts = (props: MyPostsType) => {
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
-            props.addPost()
-            // props.updateNewPostText('')  будем обнулять в state
+        props.addPost()
     }
 
     const onPostChange = () => {
@@ -48,7 +47,8 @@ const MyPosts = (props: MyPostsType) => {
                     <div>
                         <button
                             onClick={addPost}
-                        >Add post</button>
+                        >Add post
+                        </button>
                     </div>
                 </div>
             </div>
