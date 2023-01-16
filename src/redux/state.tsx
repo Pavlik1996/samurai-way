@@ -15,6 +15,7 @@ export type ProfilePageTpe = {
 export type MessagesPageType = {
     messages: MessagesType[],
     dialogs: DialogsType[],
+    newMessageBody: string
 
 }
 type SidebarType = {}
@@ -35,7 +36,11 @@ export type StoreType = {
 }
 
 
-export type ActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof changeNewTextAC>
+export type ActionsType =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof changeNewTextAC>
+    | ReturnType<typeof newMessageBodyAC>
+    | ReturnType<typeof sendMessageAC>
 
 export const addPostAC = (postText: string) => {
     return {
@@ -46,6 +51,18 @@ export const addPostAC = (postText: string) => {
 export const changeNewTextAC = (newText: string) => {
     return {
         type: "CHANGE-NEW-TEXT", newText: newText
+    } as const
+}
+
+export const newMessageBodyAC = (body: string) => {
+    return {
+        type: "UPDATE_NEW_MESSAGE_BODY", bodyText: body
+    } as const
+}
+
+export const sendMessageAC = () => {
+    return {
+        type: "SEND_MESSAGE"
     } as const
 }
 
@@ -76,6 +93,7 @@ export let store: StoreType = {
                 {id: 3, message: 'Are'},
                 {id: 4, message: 'Allo'},
             ],
+            newMessageBody: ''
         },
         sidebar: {}
     },
@@ -95,6 +113,14 @@ export let store: StoreType = {
             this._onChange()
         } else if (action.type === 'CHANGE-NEW-TEXT') {
             this._state.profilePage.newPostText = action.newText
+            this._onChange()
+        } else if (action.type === 'UPDATE_NEW_MESSAGE_BODY') {
+            this._state.dialogsPage.newMessageBody = action.bodyText
+            this._onChange()
+        } else if (action.type === 'SEND_MESSAGE') {
+            let body = this._state.dialogsPage.newMessageBody;
+            this._state.dialogsPage.newMessageBody = '';
+            this._state.dialogsPage.messages.push({id: 6, message: body});
             this._onChange()
         }
     },

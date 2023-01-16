@@ -8,7 +8,7 @@ import {Music} from "./components/Music/Music"
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-import {StoreType} from "./redux/state";
+import {store, StoreType} from "./redux/state";
 
 
 // type AppPropsType = {
@@ -39,7 +39,10 @@ export const App: React.FC<PropsType> = (props) => {
                             dispatch={props.store.dispatch.bind(props.store)}
                         />
                         }/>
-                        <Route path="/dialogs*" element={<Dialogs state={props.store._state.dialogsPage}/>}/>
+                        <Route path="/dialogs*" element={<Dialogs
+                            dispatch={props.store.dispatch.bind(props.store)}
+                            store={store}
+                        />}/>
                         <Route path="/news" element={<News title={"News"}/>}/>
                         <Route path="/music" element={<Music title={"Music"}/>}/>
                         <Route path="/settings" element={<Settings title={"Settings"}/>}/>

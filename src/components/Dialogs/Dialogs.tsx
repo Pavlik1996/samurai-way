@@ -1,27 +1,35 @@
 import s from "./Dialogs.module.css"
 import {Message} from "./Message/Message";
 import {DialogItem} from "./DialogItem/DialogItem";
-import { MessagesPageType} from "../../redux/state";
-import React from "react";
+import {
+    ActionsType,
+    newMessageBodyAC,
+    sendMessageAC,
+    StoreType
+} from "../../redux/state";
+import React, {ChangeEvent, useState} from "react";
 
 
 type DialogsPropsType = {
-    state: MessagesPageType
+    dispatch: (action: ActionsType) => void
+    store: StoreType
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
 
-    let dialogsElements = props.state.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    let dialogsElements = props.store._state.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
 
-    let messagesElements = props.state.messages.map(m => <Message message={m.message} id={m.id}/>)
+    let messagesElements = props.store._state.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
 
-
-
-    const newMessagePost = React.createRef<HTMLTextAreaElement>()
+    let newMessageBody = props.store._state.dialogsPage.newMessageBody
 
     const onClickHandler = () => {
-        alert(newMessagePost.current?.value)
+        props.store.dispatch(sendMessageAC())
+    }
 
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        let body = e.currentTarget.value
+        props.store.dispatch(newMessageBodyAC(body))
     }
 
     return (
@@ -30,11 +38,19 @@ export const Dialogs = (props: DialogsPropsType) => {
                 {dialogsElements}
             </div>
             <div className={s.messages}>
-                {messagesElements}
-                <textarea ref={newMessagePost}></textarea>
-                <button onClick={onClickHandler}>qq</button>
+                <div>{messagesElements}</div>
+                <div>
+                    <div>
+                        <textarea
+                            value={newMessageBody}
+                            onChange={onChangeHandler}
+                            placeholder={'enter tour message'}></textarea>
+                    </div>
+                    <div>
+                        <button onClick={onClickHandler}>Send</button>
+                    </div>
+                </div>
             </div>
-
         </div>
     )
 }
