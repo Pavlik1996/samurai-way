@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import Post from "./Post/Post";
 import s from "./MyPosts.module.css"
-import {ActionsType} from "../../../redux/state";
+import {ActionsType, addPostAC, changeNewTextAC} from "../../../redux/state";
 
 type MyPostsType = {
     posts: PostsType[]
@@ -16,6 +16,7 @@ type PostsType = {
     like: number
 }
 
+
 const MyPosts = (props: MyPostsType) => {
     const postsElements = props.posts.map(p => <Post message={p.messages} likeCount={p.like}/>)
 
@@ -24,12 +25,13 @@ const MyPosts = (props: MyPostsType) => {
     const [text, setText] = useState('')
 
     const addPost = () => {
-        props.dispatch({type: "ADD-POST", postText: text})
+        props.dispatch(addPostAC(text))
         setText('')
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setText(e.currentTarget.value)
+        props.dispatch(changeNewTextAC(text))
     }
 
     return (
