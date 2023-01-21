@@ -1,5 +1,5 @@
-import {ProfileReducer} from "./profile-reducer";
-import {DialogsReducer} from "./dialogs-reducer";
+import {profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
 
 export type DialogsType = {
     id: number, name: string
@@ -10,7 +10,7 @@ export type MessagesType = {
 export type PostsType = {
     id: number, messages: string, like: number
 }
-export type ProfilePageTpe = {
+export type ProfilePageType = {
     posts: PostsType[],
     newPostText: string
 
@@ -24,7 +24,7 @@ export type MessagesPageType = {
 type SidebarType = {}
 
 export type RootStateType = {
-    profilePage: ProfilePageTpe,
+    profilePage: ProfilePageType,
     dialogsPage: MessagesPageType,
     sidebar: SidebarType
 
@@ -110,8 +110,8 @@ export let store: StoreType = {
         return this._state
     },
     dispatch(action) {// описывает действие которые нужно совершить
-        ProfileReducer(this._state.profilePage, action);
-        DialogsReducer(this._state.dialogsPage, action);
+        profileReducer(this._state.profilePage, action);
+        dialogsReducer(this._state.dialogsPage, action);
         this._onChange()
     },
 }

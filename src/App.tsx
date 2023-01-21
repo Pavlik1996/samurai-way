@@ -8,7 +8,8 @@ import {Music} from "./components/Music/Music"
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-import {store, StoreType} from "./redux/state";
+import {store} from "./redux/redux-store";
+import {StoreType} from "./redux/store";
 
 
 // type AppPropsType = {
@@ -33,7 +34,7 @@ export const App: React.FC<PropsType> = (props) => {
                 <div className={"app-wrapper-content"}>
                     <Routes>
                         <Route path="/profile" element={<Profile
-                            profilePage={props.store._state.profilePage}
+                            profilePage={state.profilePage}
                             // addPost={props.store.addPost.bind(props.store)}
                             // updateNewPostText={props.store.changeNewText.bind(props.store)}
                             dispatch={props.store.dispatch.bind(props.store)}

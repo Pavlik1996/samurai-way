@@ -6,7 +6,7 @@ import {
     newMessageBodyAC,
     sendMessageAC,
     StoreType
-} from "../../redux/state";
+} from "../../redux/store";
 import React, {ChangeEvent, useState} from "react";
 
 
@@ -17,11 +17,13 @@ type DialogsPropsType = {
 
 export const Dialogs = (props: DialogsPropsType) => {
 
-    let dialogsElements = props.store._state.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    const store = props.store.getState()
 
-    let messagesElements = props.store._state.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
+    let dialogsElements = store.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
 
-    let newMessageBody = props.store._state.dialogsPage.newMessageBody
+    let messagesElements = store.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
+
+    let newMessageBody = store.dialogsPage.newMessageBody
 
     const onClickHandler = () => {
         props.store.dispatch(sendMessageAC())

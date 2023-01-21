@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom";
-import {store} from "./redux/state";
+import {store} from "./redux/redux-store";
 import {App} from "./App";
-import {log} from "util";
 
 
 export const rerenderEntireTree = () => {

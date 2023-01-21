@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import Post from "./Post/Post";
 import s from "./MyPosts.module.css"
-import {ActionsType, addPostAC, changeNewTextAC} from "../../../redux/state";
+import {ActionsType, addPostAC, changeNewTextAC} from "../../../redux/store";
 
 type MyPostsType = {
     posts: PostsType[]
@@ -20,13 +20,15 @@ type PostsType = {
 const MyPosts = (props: MyPostsType) => {
     const postsElements = props.posts.map(p => <Post message={p.messages} likeCount={p.like}/>)
 
-    const newPostElement = React.createRef<HTMLTextAreaElement>()
+    // const newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const [text, setText] = useState('')
 
     const addPost = () => {
-        props.dispatch(addPostAC(text))
-        setText('')
+        if (text.trim() !== '') {
+            props.dispatch(addPostAC(text))
+            setText('')
+        }
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
