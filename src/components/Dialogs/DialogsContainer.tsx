@@ -1,29 +1,38 @@
 import {
-
     newMessageBodyAC,
     sendMessageAC,
-    StoreType
 } from "../../redux/store";
 import React from "react";
 import {Dialogs} from "./Dialogs";
+import {StoreContext} from "../../StoreContext";
 
 
-type DialogsContainerPropsType = {
-    store: StoreType
-}
+// type DialogsContainerPropsType = {
+//     store: StoreType
+// }
 
-export const DialogsContainer = (props: DialogsContainerPropsType) => {
-
-    const dialogsPage = props.store.getState().dialogsPage
+export const DialogsContainer = () => {
 
 
-    const sendMessage = () => {
-        props.store.dispatch(sendMessageAC())
-    }
+    return (
+        <StoreContext.Consumer>
+            {
+                (store) => {
+                    const dialogsPage = store.getState().dialogsPage
 
-    const onChangeHandler = (body: string) => {
-        props.store.dispatch(newMessageBodyAC(body))
-    }
+                    const sendMessage = () => {
+                        store.dispatch(sendMessageAC())
+                    }
 
-    return <Dialogs dialogsPage={dialogsPage} newMessageBodyAC={onChangeHandler} sendMessage={sendMessage}/>
+                    const onChangeHandler = (body: string) => {
+                        store.dispatch(newMessageBodyAC(body))
+                    }
+
+                    return <Dialogs dialogsPage={dialogsPage} newMessageBodyAC={onChangeHandler}
+                                    sendMessage={sendMessage}/>
+                }
+            }
+        </StoreContext.Consumer>
+    )
+
 }
