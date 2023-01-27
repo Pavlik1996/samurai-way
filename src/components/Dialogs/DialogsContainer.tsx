@@ -1,10 +1,14 @@
 import {
-    newMessageBodyAC,
+    ActionsType,
+    MessagesPageType,
+    newMessageBodyAC, RootStateType,
     sendMessageAC,
 } from "../../redux/store";
 import React from "react";
 import {Dialogs} from "./Dialogs";
 import {StoreContext} from "../../StoreContext";
+import {connect} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
 
 
 // type DialogsContainerPropsType = {
@@ -18,7 +22,6 @@ export const DialogsContainer = () => {
         <StoreContext.Consumer>
             {
                 (store) => {
-                    const dialogsPage = store.getState().dialogsPage
 
                     const sendMessage = () => {
                         store.dispatch(sendMessageAC())
@@ -28,7 +31,8 @@ export const DialogsContainer = () => {
                         store.dispatch(newMessageBodyAC(body))
                     }
 
-                    return <Dialogs dialogsPage={dialogsPage} newMessageBodyAC={onChangeHandler}
+                    return <Dialogs dialogsPage={store.getState().dialogsPage}
+                                    newMessageBodyAC={onChangeHandler}
                                     sendMessage={sendMessage}/>
                 }
             }
@@ -36,3 +40,31 @@ export const DialogsContainer = () => {
     )
 
 }
+
+type mapStateToPropsType = {
+    dialogsPage: MessagesPageType
+}
+
+type mapDispatchToPropsType = {
+    dispatch: (action: ActionsType) => void
+}
+
+let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+    return {
+        dialogsPage: state.dialogsPage
+    }
+}
+
+let mapDispatchToProps = (dispatch: (action: ActionsType) => void) => {
+    return {
+        newMessageBodyAC: (body: string) => {
+            dispatch(newMessageBodyAC(body))
+        },
+        sendMessage: () => {
+            dispatch(sendMessageAC())
+        }
+    }
+}
+
+
+export const SuperDialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);

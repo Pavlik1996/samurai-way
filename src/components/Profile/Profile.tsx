@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileInfo from "./Profileinfo/Profileinfo";
-import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {MyPostContainerSuper, MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {StoreType} from "../../redux/store";
 
 // type ProfileType = {
@@ -13,7 +13,7 @@ const Profile = () => {
         <div>
             <ProfileInfo
                 title={"ProfileInfo"}/>
-            <MyPostsContainer/>
+            <MyPostContainerSuper/>
         </div>
     )
 }

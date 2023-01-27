@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionsType, MessagesPageType,} from "./store";
+import {ActionsType, MessagesPageType, MessagesType,} from "./store";
 
 let initialState: MessagesPageType = {
     dialogs: [
@@ -16,19 +16,23 @@ let initialState: MessagesPageType = {
         {id: 4, message: 'Allo'},
     ],
     newMessageBody: ''
-
 }
 
 export const dialogsReducer = (state: MessagesPageType = initialState, action: ActionsType) => {
     switch (action.type) {
         case "UPDATE_NEW_MESSAGE_BODY":
-            state.newMessageBody = action.bodyText
-            return state
+            return {
+                ...state,
+                newMessageBody: action.bodyText
+            }
         case "SEND_MESSAGE":
-            let body = state.newMessageBody;
-            state.newMessageBody = '';
-            state.messages.push({id: 6, message: body});
+            let body: MessagesType = {id: 6, message: state.newMessageBody}
+            return {
+                ...state,
+                newMessageBody: '',
+                messages: [...state.messages, body]
+            }
+        default:
             return state
-        default: return state
     }
 };

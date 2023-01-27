@@ -45,9 +45,9 @@ export type ActionsType =
     | ReturnType<typeof newMessageBodyAC>
     | ReturnType<typeof sendMessageAC>
 
-export const addPostAC = (postText: string) => {
+export const addPostAC = () => {
     return {
-        type: "ADD-POST", postText: postText
+        type: "ADD-POST"
     } as const
 }
 
@@ -70,51 +70,51 @@ export const sendMessageAC = () => {
 }
 
 
-export let store: StoreType = {
-    _state: {
-        profilePage: {
-            posts: [
-                {id: 1, messages: 'Вiтаю', like: 88},
-                {id: 2, messages: 'Добры настрой !', like: 88},
-                {id: 3, messages: 'П\'ю гарбату з лімонам і мятай.', like: 88},
-                {id: 4, messages: 'Збіраюся выйсці на праменад', like: 88},
-                {id: 5, messages: 'На вуліцы марозна!', like: 88},
-            ],
-            newPostText: 'it-kamasutra.com'
-        },
-        dialogsPage: {
-            dialogs: [
-                {id: 1, name: 'Pasha'},
-                {id: 2, name: 'Zhenya'},
-                {id: 3, name: 'Sasha'},
-                {id: 4, name: 'Masha'},
-                {id: 5, name: 'Kot'},
-            ],
-            messages: [
-                {id: 1, message: 'Hi'},
-                {id: 2, message: 'You'},
-                {id: 3, message: 'Are'},
-                {id: 4, message: 'Allo'},
-            ],
-            newMessageBody: ''
-        },
-        sidebar: {}
-    },
-    _onChange() {
-        console.log('state changed')
-    },
-    subscribe(callback) {
-        this._onChange = callback   // наблюдетель, передаем функцию в другую функцию
-    },
-    getState() {
-        return this._state
-    },
-    dispatch(action) {// описывает действие которые нужно совершить
-        profileReducer(this._state.profilePage, action);
-        dialogsReducer(this._state.dialogsPage, action);
-        this._onChange()
-    },
-}
+// export let store: StoreType = {
+//     _state: {
+//         profilePage: {
+//             posts: [
+//                 {id: 1, messages: 'Вiтаю', like: 88},
+//                 {id: 2, messages: 'Добры настрой !', like: 88},
+//                 {id: 3, messages: 'П\'ю гарбату з лімонам і мятай.', like: 88},
+//                 {id: 4, messages: 'Збіраюся выйсці на праменад', like: 88},
+//                 {id: 5, messages: 'На вуліцы марозна!', like: 88},
+//             ],
+//             newPostText: 'it-kamasutra.com'
+//         },
+//         dialogsPage: {
+//             dialogs: [
+//                 {id: 1, name: 'Pasha'},
+//                 {id: 2, name: 'Zhenya'},
+//                 {id: 3, name: 'Sasha'},
+//                 {id: 4, name: 'Masha'},
+//                 {id: 5, name: 'Kot'},
+//             ],
+//             messages: [
+//                 {id: 1, message: 'Hi'},
+//                 {id: 2, message: 'You'},
+//                 {id: 3, message: 'Are'},
+//                 {id: 4, message: 'Allo'},
+//             ],
+//             newMessageBody: ''
+//         },
+//         sidebar: {}
+//     },
+//     _onChange() {
+//         console.log('state changed')
+//     },
+//     subscribe(callback) {
+//         this._onChange = callback   // наблюдетель, передаем функцию в другую функцию
+//     },
+//     getState() {
+//         return this._state
+//     },
+//     dispatch(action) {// описывает действие которые нужно совершить
+//         profileReducer(this._state.profilePage, action);
+//         dialogsReducer(this._state.dialogsPage, action);
+//         this._onChange()
+//     },
+// }
 
 
 

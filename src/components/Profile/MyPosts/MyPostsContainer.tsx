@@ -1,7 +1,16 @@
 import React from "react";
-import {addPostAC, changeNewTextAC, StoreType} from "../../../redux/store";
+import {
+    ActionsType,
+    addPostAC,
+    changeNewTextAC, MessagesPageType,
+    newMessageBodyAC, PostsType, ProfilePageType,
+    sendMessageAC,
+    StoreType
+} from "../../../redux/store";
 import MyPosts from "./MyPosts";
 import {StoreContext} from "../../../StoreContext";
+import {connect} from "react-redux";
+import {AppStateType} from "../../../redux/redux-store";
 
 
 // type MyPostsContainerType = {
@@ -18,9 +27,7 @@ export const MyPostsContainer = () => {
                     const newMessage = state.profilePage.newPostText
 
                     const addPost = () => {
-                        if (newMessage.trim() !== '') {
-                            store.dispatch(addPostAC(newMessage))
-                        }
+                            store.dispatch(addPostAC())
                     }
 
                     const onPostChange = (newText: string) => {
@@ -39,3 +46,34 @@ export const MyPostsContainer = () => {
     )
 
 }
+
+
+type mapStateToPropsType = {
+    posts: PostsType[],
+    newPostText: string
+}
+
+type mapDispatchToPropsType = {
+    dispatch: (action: ActionsType) => void
+}
+
+let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+    return {
+        posts: state.profilePage.posts,
+        newPostText: state.profilePage.newPostText
+    }
+}
+
+let mapDispatchToProps = (dispatch: (action: ActionsType) => void) => {
+    return {
+        addPost: () => {
+                dispatch(addPostAC())
+        },
+        updateNewPostText: (newText: string) => {
+            dispatch(changeNewTextAC(newText))
+        }
+    }
+}
+
+
+export const MyPostContainerSuper = connect(mapStateToProps, mapDispatchToProps)(MyPosts)

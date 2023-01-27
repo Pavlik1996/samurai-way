@@ -8,12 +8,12 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
 import {StoreType} from "./redux/store";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {DialogsContainer, SuperDialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 export type PropsType = {
     store: StoreType
 }
-export const App: React.FC<PropsType> = (props) => {
+export const App = () => {
 
     return (
         <BrowserRouter>
@@ -22,8 +22,8 @@ export const App: React.FC<PropsType> = (props) => {
                 <Nav/>
                 <div className={"app-wrapper-content"}>
                     <Routes>
-                        <Route path="/profile" element={<Profile />}/>
-                        <Route path="/dialogs*" element={<DialogsContainer/>}/>
+                        <Route path="/profile" element={<Profile/>}/>
+                        <Route path="/dialogs" element={<SuperDialogsContainer/>}/>
                         <Route path="/news" element={<News title={"News"}/>}/>
                         <Route path="/music" element={<Music title={"Music"}/>}/>
                         <Route path="/settings" element={<Settings title={"Settings"}/>}/>
