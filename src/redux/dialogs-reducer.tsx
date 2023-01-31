@@ -26,12 +26,15 @@ export const dialogsReducer = (state: MessagesPageType = initialState, action: A
                 newMessageBody: action.bodyText
             }
         case "SEND_MESSAGE":
-            let body: MessagesType = {id: 6, message: state.newMessageBody}
-            return {
-                ...state,
-                newMessageBody: '',
-                messages: [...state.messages, body]
+            if (state.newMessageBody.trim() !== '') {
+                let body: MessagesType = {id: 6, message: state.newMessageBody}
+                return {
+                    ...state,
+                    messages: [...state.messages, body],
+                    newMessageBody: ''
+                }
             }
+            return state
         default:
             return state
     }

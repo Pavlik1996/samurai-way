@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from "react";
 import Post from "./Post/Post";
 import s from "./MyPosts.module.css"
+import {PostsType} from "../../../redux/store";
 
 type MyPostsType = {
     posts: PostsType[]
@@ -9,15 +10,10 @@ type MyPostsType = {
     newPostText: string
 }
 
-type PostsType = {
-    id: number,
-    messages: string,
-    like: number
-}
 
 const MyPosts = (props: MyPostsType) => {
 
-    const postsElements = props.posts.map(p => <Post message={p.messages} likeCount={p.like}/>)
+    const postsElements = props.posts.map(p => <Post key={p.id} message={p.messages} likeCount={p.like}/>)
 
     const onAddPost = () => {
         props.addPost()
@@ -53,7 +49,6 @@ const MyPosts = (props: MyPostsType) => {
                 {postsElements}
             </div>
         </div>
-
     )
 }
 export default MyPosts

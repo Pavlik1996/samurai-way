@@ -2,50 +2,13 @@ import React from "react";
 import {
     ActionsType,
     addPostAC,
-    changeNewTextAC, MessagesPageType,
-    newMessageBodyAC, PostsType, ProfilePageType,
-    sendMessageAC,
-    StoreType
-} from "../../../redux/store";
+    changeNewTextAC,
+    PostsType,
+}
+from "../../../redux/store";
 import MyPosts from "./MyPosts";
-import {StoreContext} from "../../../StoreContext";
 import {connect} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
-
-
-// type MyPostsContainerType = {
-//     store: StoreType
-// }
-
-export const MyPostsContainer = () => {
-
-    return (
-        <StoreContext.Consumer>
-            {
-                store => {
-                    let state = store.getState()
-                    const newMessage = state.profilePage.newPostText
-
-                    const addPost = () => {
-                            store.dispatch(addPostAC())
-                    }
-
-                    const onPostChange = (newText: string) => {
-                        store.dispatch(changeNewTextAC(newText))
-                    }
-
-                    return (
-                        <MyPosts posts={store.getState().profilePage.posts}
-                                 updateNewPostText={onPostChange}
-                                 addPost={addPost}
-                                 newPostText={store.getState().profilePage.newPostText}/>
-                    )
-                }
-            }
-        </StoreContext.Consumer>
-    )
-
-}
 
 
 type mapStateToPropsType = {
@@ -53,9 +16,9 @@ type mapStateToPropsType = {
     newPostText: string
 }
 
-type mapDispatchToPropsType = {
-    dispatch: (action: ActionsType) => void
-}
+// type mapDispatchToPropsType = {
+//     dispatch: (action: ActionsType) => void
+// }
 
 let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
@@ -67,7 +30,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 let mapDispatchToProps = (dispatch: (action: ActionsType) => void) => {
     return {
         addPost: () => {
-                dispatch(addPostAC())
+            dispatch(addPostAC())
         },
         updateNewPostText: (newText: string) => {
             dispatch(changeNewTextAC(newText))
@@ -76,4 +39,4 @@ let mapDispatchToProps = (dispatch: (action: ActionsType) => void) => {
 }
 
 
-export const MyPostContainerSuper = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+export const MyPostContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
