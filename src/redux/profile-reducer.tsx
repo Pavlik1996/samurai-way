@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionsType, PostsType, ProfilePageType} from "./store";
+import {PostsType, ProfilePageType} from "./store";
 
 
 let initialState: ProfilePageType = {
@@ -13,7 +13,7 @@ let initialState: ProfilePageType = {
     newPostText: ''
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType) => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypeProfile): ProfilePageType => {
     switch (action.type) {
         case "CHANGE-NEW-TEXT":
             return {
@@ -34,4 +34,22 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             return state
     }
 };
+
+
+export type ActionsTypeProfile = ReturnType<typeof addPostAC> | ReturnType<typeof changeNewTextAC>
+
+
+export const addPostAC = () => {
+    return {
+        type: "ADD-POST"
+    } as const
+}
+
+export const changeNewTextAC = (newText: string) => {
+    return {
+        type: "CHANGE-NEW-TEXT", newText: newText
+    } as const
+}
+
+
 

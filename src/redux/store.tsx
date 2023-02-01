@@ -34,61 +34,6 @@ export type UsersType = {
     }
 }
 
-export type ActionsType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof changeNewTextAC>
-    | ReturnType<typeof newMessageBodyAC>
-    | ReturnType<typeof sendMessageAC>
-    | ReturnType<typeof followAC>
-    | ReturnType<typeof unFollowAC>
-    | ReturnType<typeof setUsersAC>
-
-export const addPostAC = () => {
-    return {
-        type: "ADD-POST"
-    } as const
-}
-
-export const changeNewTextAC = (newText: string) => {
-    return {
-        type: "CHANGE-NEW-TEXT", newText: newText
-    } as const
-}
-
-export const newMessageBodyAC = (body: string) => {
-    return {
-        type: "UPDATE_NEW_MESSAGE_BODY", bodyText: body
-    } as const
-}
-
-export const sendMessageAC = () => {
-    return {
-        type: "SEND_MESSAGE"
-    } as const
-}
-
-export const followAC = (id: number) => {
-    return {
-        type: "FOLLOW",
-        payload: {id}
-    } as const
-}
-
-export const unFollowAC = (id: number) => {
-    return {
-        type: "UN-FOLLOW",
-        payload: {id}
-    } as const
-}
-
-export const setUsersAC = (users: UsersType[]) => {
-    return {
-        type: "SET-USERS",
-        payload: {users}
-    } as const
-}
-
-
 
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionsType, MessagesPageType, MessagesType,} from "./store";
+import {MessagesPageType, MessagesType} from "./store";
 
 let initialState: MessagesPageType = {
     dialogs: [
@@ -18,7 +18,7 @@ let initialState: MessagesPageType = {
     newMessageBody: ''
 }
 
-export const dialogsReducer = (state: MessagesPageType = initialState, action: ActionsType) => {
+export const dialogsReducer = (state: MessagesPageType = initialState, action: ActionsTypeDialogs): MessagesPageType => {
     switch (action.type) {
         case "UPDATE_NEW_MESSAGE_BODY":
             return {
@@ -39,3 +39,20 @@ export const dialogsReducer = (state: MessagesPageType = initialState, action: A
             return state
     }
 };
+
+export type ActionsTypeDialogs = ReturnType<typeof newMessageBodyAC> | ReturnType<typeof sendMessageAC>
+
+
+export const newMessageBodyAC = (body: string) => {
+    return {
+        type: "UPDATE_NEW_MESSAGE_BODY", bodyText: body
+    } as const
+}
+
+export const sendMessageAC = () => {
+    return {
+        type: "SEND_MESSAGE"
+    } as const
+}
+
+

@@ -1,13 +1,9 @@
-import {
-    ActionsType,
-    MessagesPageType,
-    newMessageBodyAC,
-    sendMessageAC,
-} from "../../redux/store";
 import React from "react";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
+import {ActionsTypeDialogs, newMessageBodyAC, sendMessageAC} from "../../redux/dialogs-reducer";
+import {MessagesPageType} from "../../redux/store";
 
 
 type mapStateToPropsType = {
@@ -20,7 +16,7 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     }
 }
 
-let mapDispatchToProps = (dispatch: (action: ActionsType) => void) => {
+let mapDispatchToProps = (dispatch: (action: ActionsTypeDialogs) => void) => {
     return {
         newMessageBodyAC: (body: string) => {
             dispatch(newMessageBodyAC(body))
