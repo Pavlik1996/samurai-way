@@ -14,9 +14,10 @@ class Users extends React.Component<PropsUsersType> {
 
     constructor(props: PropsUsersType) {
         super(props);
-
-        axios.get<UserPageType>('https://social-network.samuraijs.com/api/1.0/users')
-            .then(r => this.props.setUsers(r.data.items))
+        if (props?.users?.length === 0) {
+            axios.get<UserPageType>('https://social-network.samuraijs.com/api/1.0/users')
+                .then(r => this.props.setUsers(r.data.items))
+        }
     }
 
 
