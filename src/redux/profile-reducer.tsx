@@ -1,7 +1,6 @@
 import React from 'react';
 import {PostsType, ProfilePageType} from "./store";
 
-
 let initialState: ProfilePageType = {
     posts: [
         {id: 1, messages: 'Вiтаю', like: 88},
@@ -37,7 +36,6 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 
 
 export type ActionsTypeProfile = ReturnType<typeof addPostAC> | ReturnType<typeof changeNewTextAC>
-
 
 export const addPostAC = () => {
     return {

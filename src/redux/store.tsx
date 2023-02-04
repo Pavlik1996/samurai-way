@@ -1,12 +1,15 @@
 export type DialogsType = {
     id: number, name: string
 }
+
 export type MessagesType = {
     id: number, message: string
 }
+
 export type PostsType = {
     id: number, messages: string, like: number
 }
+
 export type ProfilePageType = {
     posts: PostsType[],
     newPostText: string
@@ -19,19 +22,21 @@ export type MessagesPageType = {
 }
 
 export type UserPageType = {
-    users: UsersType[]
+    items: UsersType[]
 }
 
 export type UsersType = {
+    name: string,
     id: number,
-    followed: boolean,
-    photoUrl: string,
-    fullName: string,
-    status: string,
-    location: {
-        city: string,
-        country: string
-    }
+    uniqueUrlName: null,
+    photos: {
+        small : null,
+        large: null
+    },
+    status: null,
+    followed: boolean
+    totalCount: number,
+    error: null
 }
 
 

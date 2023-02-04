@@ -1,19 +1,19 @@
 import {UserPageType, UsersType} from "./store";
 
 const initialState: UserPageType = {
-    users: []
+    items: []
 }
 
 export const usersReducer = (state: UserPageType = initialState, action: ActionsTypeUsers): UserPageType => {
     switch (action.type) {
         case 'FOLLOW': {
-            return {...state, users: state.users.map(el => el.id === action.payload.id ? {...el, followed: true} : el)}
+            return {...state, items: state.items.map(el => el.id === action.payload.id ? {...el, followed: true} : el)}
         }
         case "UN-FOLLOW": {
-            return {...state, users: state.users.map(el => el.id === action.payload.id ? {...el, followed: false} : el)}
+            return {...state, items: state.items.map(el => el.id === action.payload.id ? {...el, followed: false} : el)}
         }
         case "SET-USERS": {
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, items: [...state.items, ...action.payload.users]}
         }
         default:
             return state
@@ -21,7 +21,6 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
 }
 
 export type ActionsTypeUsers = ReturnType<typeof followAC> | ReturnType<typeof unFollowAC> | ReturnType<typeof setUsersAC>
-
 
 export const followAC = (id: number) => {
     return {
