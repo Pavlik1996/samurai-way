@@ -10,33 +10,35 @@ type PropsUsersType = {
     setUsers: (users: UsersType[]) => void
 }
 
-export const Users = (props: PropsUsersType) => {
-    if (props.users.length === 0) {
+class Users extends React.Component<PropsUsersType> {
+
+    constructor(props: PropsUsersType) {
+        super(props);
 
         axios.get<UserPageType>('https://social-network.samuraijs.com/api/1.0/users')
-            .then(r => props.setUsers(r.data.items))
+            .then(r => this.props.setUsers(r.data.items))
     }
 
-    const onClickUnFollowHandler = (id: number) => {
-        props.unFollow(id)
+
+    render() {
+        return (
+            <div>
+                {
+                    this.props.users.map(el => <div key={el.id} style={{display: 'flex'}}>
+                        <img alt={'ava'} style={{width: '50px'}}
+                             src={el.photos.small !== null ? el.photos.small : userPhoto}/>
+                        <div>
+                            {el.followed
+                                ? <button onClick={() => this.props.unFollow(el.id)}>UnFollow</button>
+                                : <button onClick={() => this.props.follow(el.id)}>Follow</button>
+                            }
+                        </div>
+                        {el.name}
+                    </div>)
+                }
+            </div>
+        );
     }
-    const onClickFollowHandler = (id: number) => {
-        props.follow(id)
-    }
-    return (
-        <div>
-            {
-                props.users.map(el => <div key={el.id} style={{display: 'flex'}}>
-                    <img alt={'ava'} style={{width: '50px'}} src={el.photos.small !== null ? el.photos.small : userPhoto}/>
-                    <div>
-                        {el.followed
-                            ? <button onClick={() => onClickUnFollowHandler(el.id)}>UnFollow</button>
-                            : <button onClick={() => onClickFollowHandler(el.id)}>Follow</button>
-                        }
-                    </div>
-                    {el.name}
-                </div>)
-            }
-        </div>
-    );
 }
+
+export default Users
