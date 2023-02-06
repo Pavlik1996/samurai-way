@@ -1,7 +1,11 @@
 import {UserPageType, UsersType} from "./store";
 
 const initialState: UserPageType = {
-    items: []
+    items: [],
+    pageSize: 5,
+    totalCount: 0,
+    currentPage: 2,
+    error: null
 }
 
 export const usersReducer = (state: UserPageType = initialState, action: ActionsTypeUsers): UserPageType => {
@@ -13,14 +17,25 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
             return {...state, items: state.items.map(el => el.id === action.payload.id ? {...el, followed: false} : el)}
         }
         case "SET-USERS": {
-            return {...state, items: [...state.items, ...action.payload.users]}
+            return {...state, items: action.payload.users}
+        }
+        case "SET-CURRENT-PAGES": {
+            return {...state, currentPage: action.payload.page}
+        }
+        case "SET-USERS-TOTAL-COUNT": {
+            return {...state, totalCount: action.payload.totalCount}
         }
         default:
             return state
     }
 }
 
-export type ActionsTypeUsers = ReturnType<typeof followAC> | ReturnType<typeof unFollowAC> | ReturnType<typeof setUsersAC>
+export type ActionsTypeUsers =
+    ReturnType<typeof followAC>
+    | ReturnType<typeof unFollowAC>
+    | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
 
 export const followAC = (id: number) => {
     return {
@@ -43,6 +58,19 @@ export const setUsersAC = (users: UsersType[]) => {
     } as const
 }
 
+export const setCurrentPageAC = (page: number) => {
+    return {
+        type: "SET-CURRENT-PAGES",
+        payload: {page}
+    } as const
+}
+
+export const setTotalUsersCountAC = (totalCount: number) => {
+    return {
+        type: "SET-USERS-TOTAL-COUNT",
+        payload: {totalCount}
+    } as const
+}
 
 
 

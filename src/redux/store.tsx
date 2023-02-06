@@ -22,7 +22,11 @@ export type MessagesPageType = {
 }
 
 export type UserPageType = {
-    items: UsersType[]
+    items: UsersType[],
+    pageSize: number,
+    totalCount: number,
+    currentPage: number,
+    error: null
 }
 
 export type UsersType = {
@@ -30,13 +34,11 @@ export type UsersType = {
     id: number,
     uniqueUrlName: null,
     photos: {
-        small : null,
+        small: null,
         large: null
     },
     status: null,
     followed: boolean
-    totalCount: number,
-    error: null
 }
 
 

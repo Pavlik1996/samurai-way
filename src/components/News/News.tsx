@@ -1,12 +1,9 @@
 
-type NewsType = {
-    title: string
-}
 
-export const News = (props: NewsType) => {
+export const News = () => {
     return (
         <div>
-            {props.title}
+           News
         </div>
     )
 }
