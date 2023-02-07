@@ -10,7 +10,49 @@ import {
     setUsersAC,
     unFollowAC
 } from "../../redux/users-reducer";
-import Users from "./Users";
+import axios from "axios";
+import {Users} from "./Users";
+
+type PropsUsersType = {
+    items: UsersType[],
+    pageSize: number,
+    totalCount: number,
+    follow: (id: number) => void,
+    unFollow: (id: number) => void,
+    setUsers: (users: UsersType[]) => void,
+    setCurrentPage: (page: number) => void,
+    currentPage: number,
+    setTotalUsersCount: (totalPage: number) => void
+}
+
+class UsersApiComponent extends React.Component<PropsUsersType> {
+
+    componentDidMount() {
+        axios.get<UserPageType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}& count=${this.props.pageSize}`)
+            .then(r => {
+                this.props.setUsers(r.data.items)
+                this.props.setTotalUsersCount(r.data.totalCount)
+            })
+    }
+
+    onClickHandlerChangePage = (page: number) => {
+        this.props.setCurrentPage(page)
+        axios.get<UserPageType>(`https://social-network.samuraijs.com/api/1.0/users?page=${page}& count=${this.props.pageSize}`)
+            .then(r => {
+                this.props.setUsers(r.data.items)
+            })
+    }
+
+    render() {
+        return <Users items={this.props.items}
+                      pageSize={this.props.pageSize}
+                      totalCount={this.props.totalCount}
+                      follow={this.props.follow}
+                      unFollow={this.props.unFollow}
+                      currentPage={this.props.currentPage}
+                      onClickHandlerChangePage={this.onClickHandlerChangePage}/>
+    }
+}
 
 
 const mapStateToProps = (state: AppStateType): UserPageType => {
@@ -45,6 +87,6 @@ const mapDispatchToProps = (dispatch: (action: ActionsTypeUsers) => void) => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersApiComponent)
 
 

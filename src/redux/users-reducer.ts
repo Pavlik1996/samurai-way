@@ -4,7 +4,7 @@ const initialState: UserPageType = {
     items: [],
     pageSize: 5,
     totalCount: 0,
-    currentPage: 2,
+    currentPage: 1,
     error: null
 }
 
