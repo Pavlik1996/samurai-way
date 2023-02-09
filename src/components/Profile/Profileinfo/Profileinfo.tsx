@@ -1,8 +1,10 @@
 import React from "react";
 import s from "./ProfileInfo.module.css"
+import {ProfileInfoType} from "../../../redux/store";
 
 type ProfileType = {
     title: string
+    profile: ProfileInfoType
 }
 
 const ProfileInfo = (props: ProfileType) => {
@@ -14,7 +16,12 @@ const ProfileInfo = (props: ProfileType) => {
                      alt="photo"/>
             </div>
             <div className={s.descriptionBlock}>
-                ava + description
+                <img alt={'ava'} src={props.profile.photos.large}/>
+                <span>{props.profile.fullName}</span>
+                <span>{props.profile.aboutMe}</span>
+                <span>{props.profile.contacts.vk}</span>
+                <span>{props.profile.contacts.twitter}</span>
+                <span>{props.profile.contacts.mainLink}</span>
             </div>
         </div>
     )

@@ -13,6 +13,29 @@ export type PostsType = {
 export type ProfilePageType = {
     posts: PostsType[],
     newPostText: string
+    profile: ProfileInfoType
+}
+
+export type ProfileInfoType = {
+    aboutMe: string,
+    contacts: {
+        facebook: string,
+        website: null,
+        vk: string,
+        twitter: string,
+        instagram: string,
+        youtube: null,
+        github: string,
+        mainLink: null
+    },
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    userId: number,
+    photos: {
+        small: string,
+        large: string
+    }
 }
 
 export type MessagesPageType = {
@@ -26,7 +49,8 @@ export type UserPageType = {
     pageSize: number,
     totalCount: number,
     currentPage: number,
-    error: null
+    // error: null
+    isFetching: boolean
 }
 
 export type UsersType = {

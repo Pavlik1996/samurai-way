@@ -2,6 +2,7 @@ import React from 'react';
 import s from "./users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
 import {UsersType} from "../../redux/store";
+import {NavLink} from "react-router-dom";
 
 type PropsUsersType = {
     items: UsersType[],
@@ -36,8 +37,11 @@ export const Users = (props: PropsUsersType) => {
             </div>
             {
                 props.items.map(el => <div key={el.id} style={{display: 'flex'}}>
-                    <img alt={'ava'} className={s.userPhoto}
-                         src={el.photos.small !== null ? el.photos.small : userPhoto}/>
+                    <NavLink to={'/profile/' + el.id}>
+                        <img alt={'ava'} className={s.userPhoto}
+                             src={el.photos.small !== null ? el.photos.small : userPhoto}/>
+                    </NavLink>
+
                     <div>
                         {el.followed
                             ? <button onClick={() => props.unFollow(el.id)}>UnFollow</button>
