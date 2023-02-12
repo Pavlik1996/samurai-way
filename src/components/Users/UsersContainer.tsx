@@ -32,7 +32,7 @@ class UserContainer extends React.Component<PropsUsersType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get<UserPageType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}& count=${this.props.pageSize}`)
+        axios.get<UserPageType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}& count=${this.props.pageSize}`, {withCredentials: true})
             .then(r => {
                 this.props.setIsFetching(false)
                 this.props.setUsers(r.data.items)
@@ -43,7 +43,7 @@ class UserContainer extends React.Component<PropsUsersType> {
     onClickHandlerChangePage = (page: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(page)
-        axios.get<UserPageType>(`https://social-network.samuraijs.com/api/1.0/users?page=${page}& count=${this.props.pageSize}`)
+        axios.get<UserPageType>(`https://social-network.samuraijs.com/api/1.0/users?page=${page}& count=${this.props.pageSize}`, {withCredentials: true})
             .then(r => {
                 this.props.setIsFetching(false)
                 this.props.setUsers(r.data.items)

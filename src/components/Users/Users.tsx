@@ -1,8 +1,9 @@
 import React from 'react';
 import s from "./users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
-import {UsersType} from "../../redux/store";
+import {UserPageType, UsersType} from "../../redux/store";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 type PropsUsersType = {
     items: UsersType[],
@@ -14,6 +15,13 @@ type PropsUsersType = {
     onClickHandlerChangePage: (page: number) => void
 }
 
+type FollowType = {
+    data: {}
+    fieldsErrors: []
+    messages: []
+    resultCode: number
+}
+
 export const Users = (props: PropsUsersType) => {
 
     let pagesCount = Math.ceil(props.totalCount / props.pageSize)
@@ -22,14 +30,28 @@ export const Users = (props: PropsUsersType) => {
         pages.push(i)
     }
 
+    const followHandler = (id: number) => {
+        axios.post<FollowType>(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, null, {withCredentials: true})
+            .then(r => {
+                if (r.data.resultCode === 0) props.follow(id)
+            })
+
+    }
+    const unFollowHandler = (id: number) => {
+        axios.delete<FollowType>(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {withCredentials: true})
+            .then(r => {
+                if (r.data.resultCode === 0) props.unFollow(id)
+            })
+    }
+
     return (
         <div>
             <div>
                 {pages.map(el => {
                     return (
-                        <span
-                            onClick={() => props.onClickHandlerChangePage(el)}
-                            className={props.currentPage === el ? s.selected : ''}> {el} </span>
+                        <span key={el}
+                              onClick={() => props.onClickHandlerChangePage(el)}
+                              className={props.currentPage === el ? s.selected : ''}> {el} </span>
                     )
                 })}
                 <span>{pagesCount}</span>
@@ -44,8 +66,8 @@ export const Users = (props: PropsUsersType) => {
 
                     <div>
                         {el.followed
-                            ? <button onClick={() => props.unFollow(el.id)}>UnFollow</button>
-                            : <button onClick={() => props.follow(el.id)}>Follow</button>
+                            ? <button onClick={() => unFollowHandler(el.id)}>UnFollow</button>
+                            : <button onClick={() => followHandler(el.id)}>Follow</button>
                         }
                     </div>
                     {el.name}
