@@ -12,7 +12,7 @@ import {
 } from "../../redux/users-reducer";
 import { Users } from "./Users";
 import { Preloader } from "../common/Preloader/Preloader";
-import { getUsers } from "../../api/api";
+import { userAPI } from "../../api/api";
 
 type PropsUsersType = {
   items: UsersType[];
@@ -31,19 +31,21 @@ type PropsUsersType = {
 class UserContainer extends React.Component<PropsUsersType> {
   componentDidMount() {
     this.props.setIsFetching(true);
-    getUsers(this.props.currentPage, this.props.pageSize).then((r) => {
-      this.props.setIsFetching(false);
-      this.props.setUsers(r.data.items);
-      this.props.setTotalUsersCount(r.data.totalCount);
-    });
+    userAPI
+      .getUsers(this.props.currentPage, this.props.pageSize)
+      .then((data) => {
+        this.props.setIsFetching(false);
+        this.props.setUsers(data.items);
+        this.props.setTotalUsersCount(data.totalCount);
+      });
   }
 
   onClickHandlerChangePage = (page: number) => {
     this.props.setIsFetching(true);
     this.props.setCurrentPage(page);
-    getUsers(page, this.props.pageSize).then((r) => {
+    userAPI.getUsers(page, this.props.pageSize).then((data) => {
       this.props.setIsFetching(false);
-      this.props.setUsers(r.data.items);
+      this.props.setUsers(data.items);
     });
   };
 
