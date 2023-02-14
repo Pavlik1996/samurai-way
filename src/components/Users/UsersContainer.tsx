@@ -1,14 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppStateType } from "../../redux/redux-store";
-import { UserPageType, UsersType } from "../../redux/store";
 import {
   follow,
   setCurrentPage,
   setIsFetching,
   setTotalUsersCount,
   setUsers,
+  toggleIsFollowing,
   unFollow,
+  UserPageType,
+  UsersType,
 } from "../../redux/users-reducer";
 import { Users } from "./Users";
 import { Preloader } from "../common/Preloader/Preloader";
@@ -25,7 +27,9 @@ type PropsUsersType = {
   currentPage: number;
   setTotalUsersCount: (totalPage: number) => void;
   setIsFetching: (isFetching: boolean) => void;
+  toggleIsFollowing: (isFollowing: boolean, id: number) => void;
   isFetching: boolean;
+  isFollowing: number[];
 };
 
 class UserContainer extends React.Component<PropsUsersType> {
@@ -61,6 +65,8 @@ class UserContainer extends React.Component<PropsUsersType> {
           unFollow={this.props.unFollow}
           currentPage={this.props.currentPage}
           onClickHandlerChangePage={this.onClickHandlerChangePage}
+          isFollowing={this.props.isFollowing}
+          toggleIsFollowing={this.props.toggleIsFollowing}
         />
       </>
     );
@@ -75,6 +81,7 @@ const mapStateToProps = (state: AppStateType): UserPageType => {
     currentPage: state.usersPage.currentPage,
     // error: null,
     isFetching: state.usersPage.isFetching,
+    isFollowing: state.usersPage.isFollowing,
   };
 };
 
@@ -85,4 +92,5 @@ export default connect(mapStateToProps, {
   setCurrentPage,
   setTotalUsersCount,
   setIsFetching,
+  toggleIsFollowing,
 })(UserContainer);

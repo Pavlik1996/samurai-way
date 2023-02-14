@@ -1,10 +1,9 @@
 import React from "react";
 import s from "./users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
-import { UsersType } from "../../redux/store";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
 import { followAPI, unFollowAPI } from "../../api/api";
+import { UsersType } from "../../redux/users-reducer";
 
 type PropsUsersType = {
   items: UsersType[];
@@ -14,12 +13,8 @@ type PropsUsersType = {
   unFollow: (id: number) => void;
   currentPage: number;
   onClickHandlerChangePage: (page: number) => void;
-};
-
-type PostDeleteType = {
-  resultCode: number;
-  messages: string[];
-  data: {};
+  toggleIsFollowing: (isFollowing: boolean, id: number) => void;
+  isFollowing: number[];
 };
 
 export const Users = (props: PropsUsersType) => {
@@ -30,15 +25,21 @@ export const Users = (props: PropsUsersType) => {
   }
 
   const followHandler = (id: number) => {
+    props.toggleIsFollowing(true, id);
     followAPI.follow(id).then((resultCode) => {
       if (resultCode === 0) {
         props.follow(id);
       }
+      props.toggleIsFollowing(false, id);
     });
   };
   const unFollowHandler = (id: number) => {
+    props.toggleIsFollowing(true, id);
     unFollowAPI.unFollow(id).then((resultCode) => {
-      if (resultCode === 0) props.unFollow(id);
+      if (resultCode === 0) {
+        props.unFollow(id);
+      }
+      props.toggleIsFollowing(false, id);
     });
   };
 
@@ -70,9 +71,19 @@ export const Users = (props: PropsUsersType) => {
 
           <div>
             {el.followed ? (
-              <button onClick={() => unFollowHandler(el.id)}>UnFollow</button>
+              <button
+                disabled={props.isFollowing.some((id) => id === el.id)}
+                onClick={() => unFollowHandler(el.id)}
+              >
+                UnFollow
+              </button>
             ) : (
-              <button onClick={() => followHandler(el.id)}>Follow</button>
+              <button
+                disabled={props.isFollowing.some((id) => id === el.id)}
+                onClick={() => followHandler(el.id)}
+              >
+                Follow
+              </button>
             )}
           </div>
           {el.name}

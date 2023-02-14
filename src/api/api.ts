@@ -1,5 +1,6 @@
 import axios from "axios";
-import { ProfileInfoType, UserPageType } from "../redux/store";
+import { ProfileInfoType } from "../redux/store";
+import { UserPageType } from "../redux/users-reducer";
 
 type PostDeleteType = {
   resultCode: number;
@@ -26,7 +27,7 @@ export const userAPI = {
 export const followAPI = {
   follow(id: number) {
     return instance
-      .get<PostDeleteType>(`follow/${id}`)
+      .post<PostDeleteType>(`follow/${id}`)
       .then((r) => r.data.resultCode);
   },
 };
@@ -34,7 +35,7 @@ export const followAPI = {
 export const unFollowAPI = {
   unFollow(id: number) {
     return instance
-      .get<PostDeleteType>(`follow/${id}`)
+      .delete<PostDeleteType>(`follow/${id}`)
       .then((r) => r.data.resultCode);
   },
 };
