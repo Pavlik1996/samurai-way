@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { setUserProfile } from "../../redux/profile-reducer";
 import { AppStateType } from "../../redux/redux-store";
 import { withRouter } from "react-router-dom";
-import { meAPI } from "../../api/api";
+import { userAPI } from "../../api/api";
 
 type ProfileContainerType = {
-  setUserProfile: (profile: ProfileInfoType) => void;
+  setUserProfile: (userId: string) => void;
   profile: ProfileInfoType;
   match: {
     isExact: boolean;
@@ -24,9 +24,7 @@ class ProfileContainer extends React.Component<ProfileContainerType> {
     if (!userId) {
       userId = "22";
     }
-    meAPI.getMe(userId).then((data) => {
-      this.props.setUserProfile(data);
-    });
+    this.props.setUserProfile(userId);
   }
 
   render() {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { initialStateAuthType } from "../redux/auth-reducer";
 import { ProfileInfoType } from "../redux/store";
 import { UserPageType } from "../redux/users-reducer";
 
@@ -22,28 +23,25 @@ export const userAPI = {
       .get<UserPageType>(`users?page=${currentPage}& count=${pageSize}`)
       .then((r) => r.data);
   },
-};
-
-export const followAPI = {
   follow(id: number) {
     return instance
       .post<PostDeleteType>(`follow/${id}`)
       .then((r) => r.data.resultCode);
   },
-};
-
-export const unFollowAPI = {
   unFollow(id: number) {
     return instance
       .delete<PostDeleteType>(`follow/${id}`)
       .then((r) => r.data.resultCode);
   },
-};
-
-export const meAPI = {
   getMe(userID: string) {
     return instance
       .get<ProfileInfoType>(`profile/${userID}`)
       .then((r) => r.data);
+  },
+};
+
+export const authAPI = {
+  autheMe() {
+    return instance.get<initialStateAuthType>("auth/me").then((r) => r.data);
   },
 };

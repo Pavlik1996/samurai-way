@@ -1,3 +1,6 @@
+import { Dispatch } from "redux";
+import { userAPI } from "../api/api";
+
 export type UserPageType = {
   items: UsersType[];
   pageSize: number;
@@ -77,22 +80,22 @@ export const usersReducer = (
 };
 
 export type ActionsTypeUsers =
-  | ReturnType<typeof follow>
-  | ReturnType<typeof unFollow>
+  | ReturnType<typeof acceptFollow>
+  | ReturnType<typeof acceptUnFollow>
   | ReturnType<typeof setUsers>
   | ReturnType<typeof setCurrentPage>
   | ReturnType<typeof setTotalUsersCount>
   | ReturnType<typeof setIsFetching>
   | ReturnType<typeof toggleIsFollowing>;
 
-export const follow = (id: number) => {
+export const acceptFollow = (id: number) => {
   return {
     type: "FOLLOW",
     payload: { id },
   } as const;
 };
 
-export const unFollow = (id: number) => {
+export const acceptUnFollow = (id: number) => {
   return {
     type: "UN-FOLLOW",
     payload: { id },
@@ -132,4 +135,39 @@ export const toggleIsFollowing = (isFollowing: boolean, id: number) => {
     type: "TOGGLE-IS-FOLLOWING",
     payload: { id, isFollowing },
   } as const;
+};
+
+export const getUsers = (currentPage: number, pageSize: number) => {
+  return (dispatch: Dispatch<ActionsTypeUsers>) => {
+    dispatch(setIsFetching(true));
+    userAPI.getUsers(currentPage, pageSize).then((data) => {
+      dispatch(setIsFetching(false));
+      dispatch(setUsers(data.items));
+      dispatch(setTotalUsersCount(data.totalCount));
+    });
+  };
+};
+
+export const follow = (id: number) => {
+  return (dispatch: Dispatch<ActionsTypeUsers>) => {
+    dispatch(toggleIsFollowing(true, id));
+    userAPI.follow(id).then((resultCode) => {
+      if (resultCode === 0) {
+        dispatch(acceptFollow(id));
+      }
+      dispatch(toggleIsFollowing(false, id));
+    });
+  };
+};
+
+export const unFollow = (id: number) => {
+  return (dispatch: Dispatch<ActionsTypeUsers>) => {
+    dispatch(toggleIsFollowing(true, id));
+    userAPI.unFollow(id).then((resultCode) => {
+      if (resultCode === 0) {
+        dispatch(acceptUnFollow(id));
+      }
+      dispatch(toggleIsFollowing(false, id));
+    });
+  };
 };

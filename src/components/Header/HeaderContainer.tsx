@@ -15,27 +15,13 @@ type HeaderContainerType = {
     email: string;
   };
   resultCode: number;
-  setAuthUserData: (id: number, login: string, email: string) => void;
+  setAuthUserData: () => void;
   isAuth: boolean;
-  // setIsFetching: () => void
 };
 
 class HeaderContainer extends React.Component<HeaderContainerType> {
   componentDidMount() {
-    // this.props.setIsFetching(true)
-    axios
-      .get<initialStateAuthType>(
-        `https://social-network.samuraijs.com/api/1.0/auth/me`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((r) => {
-        if (r.data.resultCode === 0) {
-          let { id, login, email } = r.data.data;
-          this.props.setAuthUserData(id, login, email);
-        }
-      });
+    this.props.setAuthUserData();
   }
 
   render() {
