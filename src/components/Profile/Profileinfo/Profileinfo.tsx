@@ -3,11 +3,11 @@ import s from "./ProfileInfo.module.css"
 import {ProfileInfoType} from "../../../redux/store";
 
 type ProfileType = {
-    title: string
     profile: ProfileInfoType
 }
 
 const ProfileInfo = (props: ProfileType) => {
+    debugger
     return (
         <div>
             <div>

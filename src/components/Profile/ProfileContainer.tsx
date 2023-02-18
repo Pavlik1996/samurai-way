@@ -2,13 +2,12 @@ import React from "react";
 import Profile from "./Profile";
 import { ProfileInfoType } from "../../redux/store";
 import { connect } from "react-redux";
-import { setUserProfile } from "../../redux/profile-reducer";
+import {getUserProfile} from "../../redux/profile-reducer";
 import { AppStateType } from "../../redux/redux-store";
 import { withRouter } from "react-router-dom";
-import { userAPI } from "../../api/api";
 
 type ProfileContainerType = {
-  setUserProfile: (userId: string) => void;
+  getUserProfile: (userId: string) => void;
   profile: ProfileInfoType;
   match: {
     isExact: boolean;
@@ -24,13 +23,13 @@ class ProfileContainer extends React.Component<ProfileContainerType> {
     if (!userId) {
       userId = "22";
     }
-    this.props.setUserProfile(userId);
+    this.props.getUserProfile(userId);
   }
 
   render() {
     return (
       <div>
-        <Profile {...this.props} profile={this.props.profile} />
+        <Profile {...this.props} />
       </div>
     );
   }
@@ -44,6 +43,6 @@ let mapSTateToProps = (state: AppStateType): { profile: ProfileInfoType } => {
 
 let witchUrlDataContainerComponent = withRouter<any, any>(ProfileContainer);
 
-export default connect(mapSTateToProps, { setUserProfile })(
+export default connect(mapSTateToProps, { getUserProfile })(
   witchUrlDataContainerComponent
 );

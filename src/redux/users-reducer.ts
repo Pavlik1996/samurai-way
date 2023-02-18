@@ -140,10 +140,10 @@ export const toggleIsFollowing = (isFollowing: boolean, id: number) => {
 export const getUsers = (currentPage: number, pageSize: number) => {
   return (dispatch: Dispatch<ActionsTypeUsers>) => {
     dispatch(setIsFetching(true));
-    userAPI.getUsers(currentPage, pageSize).then((data) => {
+    userAPI.getUsers(currentPage, pageSize).then((r) => {
       dispatch(setIsFetching(false));
-      dispatch(setUsers(data.items));
-      dispatch(setTotalUsersCount(data.totalCount));
+      dispatch(setUsers(r.data.items));
+      dispatch(setTotalUsersCount(r.data.totalCount));
     });
   };
 };
@@ -151,8 +151,8 @@ export const getUsers = (currentPage: number, pageSize: number) => {
 export const follow = (id: number) => {
   return (dispatch: Dispatch<ActionsTypeUsers>) => {
     dispatch(toggleIsFollowing(true, id));
-    userAPI.follow(id).then((resultCode) => {
-      if (resultCode === 0) {
+    userAPI.follow(id).then((r) => {
+      if (r.data.resultCode === 0) {
         dispatch(acceptFollow(id));
       }
       dispatch(toggleIsFollowing(false, id));
@@ -163,8 +163,8 @@ export const follow = (id: number) => {
 export const unFollow = (id: number) => {
   return (dispatch: Dispatch<ActionsTypeUsers>) => {
     dispatch(toggleIsFollowing(true, id));
-    userAPI.unFollow(id).then((resultCode) => {
-      if (resultCode === 0) {
+    userAPI.unFollow(id).then((r) => {
+      if (r.data.resultCode === 0) {
         dispatch(acceptUnFollow(id));
       }
       dispatch(toggleIsFollowing(false, id));

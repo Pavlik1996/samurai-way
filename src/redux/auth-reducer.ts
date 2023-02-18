@@ -2,13 +2,15 @@ import { Dispatch } from "redux";
 import { authAPI } from "../api/api";
 
 export type initialStateAuthType = {
+  messages: [];
+  fieldsErrors: [];
+  resultCode: number;
+  isAuth: boolean;
   data: {
     id: number;
     login: string;
     email: string;
   };
-  resultCode: number;
-  isAuth: boolean;
 };
 
 const initialState: initialStateAuthType = {} as initialStateAuthType;
@@ -16,31 +18,27 @@ const initialState: initialStateAuthType = {} as initialStateAuthType;
 export const AuthReducer = (state = initialState, action: AuthActionsType) => {
   switch (action.type) {
     case "SET-USER-DATA":
-      return { ...state, ...action.payload, isAuth: true };
+      return { ...state, data: { ...action.payload }, isAuth: true };
     default:
       return state;
   }
 };
 
-type AuthActionsType = ReturnType<typeof setAuthUserDataSucsess>;
+type AuthActionsType = ReturnType<typeof setAuthUserData>;
 
-export const setAuthUserDataSucsess = (
-  id: number,
-  login: string,
-  email: string
-) => {
+export const setAuthUserData = (id: number, login: string, email: string) => {
   return {
     type: "SET-USER-DATA",
     payload: { id, login, email },
   } as const;
 };
 
-export const setAuthUserData = () => {
+export const getAuthUserData = () => {
   return (dispatch: Dispatch<AuthActionsType>) => {
-    authAPI.autheMe().then((r) => {
-      if (r.resultCode === 0) {
-        let { id, login, email } = r.data;
-        dispatch(setAuthUserDataSucsess(id, login, email));
+    authAPI.me().then((r) => {
+      if (r.data.resultCode === 0) {
+        let { id, login, email } = r.data.data;
+        dispatch(setAuthUserData(id, login, email));
       }
     });
   };
