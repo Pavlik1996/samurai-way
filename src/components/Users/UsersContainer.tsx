@@ -7,11 +7,11 @@ import {
   setCurrentPage,
   toggleIsFollowing,
   unFollow,
-  UserPageType,
   UsersType,
 } from "../../redux/users-reducer";
 import { Users } from "./Users";
 import { Preloader } from "../common/Preloader/Preloader";
+import {Redirect} from "react-router-dom";
 
 type PropsUsersType = {
   items: UsersType[];
@@ -25,6 +25,7 @@ type PropsUsersType = {
   isFetching: boolean;
   isFollowing: number[];
   getUsers: (currentPage: number, pageSize: number) => void;
+  isAuth: boolean
 };
 
 class UserContainer extends React.Component<PropsUsersType> {
@@ -37,6 +38,8 @@ class UserContainer extends React.Component<PropsUsersType> {
   };
 
   render() {
+    if (!this.props.isAuth) return  <Redirect to={'/login'}/>
+
     return (
       <>
         {this.props.isFetching && <Preloader />}
@@ -55,7 +58,7 @@ class UserContainer extends React.Component<PropsUsersType> {
   }
 }
 
-const mapStateToProps = (state: AppStateType): UserPageType => {
+const mapStateToProps = (state: AppStateType) => {
   return {
     items: state.usersPage.items,
     pageSize: state.usersPage.pageSize,
@@ -64,6 +67,7 @@ const mapStateToProps = (state: AppStateType): UserPageType => {
     // error: null,
     isFetching: state.usersPage.isFetching,
     isFollowing: state.usersPage.isFollowing,
+    isAuth: state.auth.isAuth
   };
 };
 

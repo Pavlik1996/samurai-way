@@ -1,12 +1,8 @@
 
-type SettingType = {
-    title: string
-}
-
-export const Settings = (props: SettingType) => {
+export const Settings = () => {
   return (
       <div>
-          {props.title}
+          Settings
       </div>
   )
 }

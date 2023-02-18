@@ -1,11 +1,9 @@
-type MusicType = {
-    title: string
-}
 
-export const Music = (props: MusicType) => {
+
+export const Music = () => {
     return (
         <div>
-            {props.title}
+            Music
         </div>
     )
 }
