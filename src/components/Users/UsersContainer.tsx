@@ -11,7 +11,7 @@ import {
 } from "../../redux/users-reducer";
 import { Users } from "./Users";
 import { Preloader } from "../common/Preloader/Preloader";
-import {Redirect} from "react-router-dom";
+import witchAuthRedirect from "../../hoc/witchAuthRedirect";
 
 type PropsUsersType = {
   items: UsersType[];
@@ -25,7 +25,6 @@ type PropsUsersType = {
   isFetching: boolean;
   isFollowing: number[];
   getUsers: (currentPage: number, pageSize: number) => void;
-  isAuth: boolean
 };
 
 class UserContainer extends React.Component<PropsUsersType> {
@@ -38,7 +37,6 @@ class UserContainer extends React.Component<PropsUsersType> {
   };
 
   render() {
-    if (!this.props.isAuth) return  <Redirect to={'/login'}/>
 
     return (
       <>
@@ -67,9 +65,10 @@ const mapStateToProps = (state: AppStateType) => {
     // error: null,
     isFetching: state.usersPage.isFetching,
     isFollowing: state.usersPage.isFollowing,
-    isAuth: state.auth.isAuth
   };
 };
+
+let AuthRedirectComponent = witchAuthRedirect(UserContainer);
 
 export default connect(mapStateToProps, {
   follow,
@@ -77,5 +76,5 @@ export default connect(mapStateToProps, {
   setCurrentPage,
   toggleIsFollowing,
   getUsers,
-})(UserContainer);
+})(AuthRedirectComponent);
 //add

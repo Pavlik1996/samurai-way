@@ -1,32 +1,34 @@
 import React from "react";
-import {Dialogs} from "./Dialogs";
-import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
-import {ActionsTypeDialogs, newMessageBodyAC, sendMessageAC} from "../../redux/dialogs-reducer";
-import {MessagesPageType} from "../../redux/store";
+import { Dialogs } from "./Dialogs";
+import { connect } from "react-redux";
+import { AppStateType } from "../../redux/redux-store";
+import {
+  ActionsTypeDialogs,
+  newMessageBodyAC,
+  sendMessageAC,
+} from "../../redux/dialogs-reducer";
+import witchAuthRedirect from "../../hoc/witchAuthRedirect";
 
+let mapStateToProps = (state: AppStateType) => {
+  return {
+    dialogsPage: state.dialogsPage,
+  };
+};
 
-type mapStateToPropsType = {
-    dialogsPage: MessagesPageType
-    isAuth: boolean
-}
-
-let mapStateToProps = (state: AppStateType): mapStateToPropsType => {
-    return {
-        dialogsPage: state.dialogsPage,
-        isAuth: state.auth.isAuth
-    }
-}
+let AuthRedirectComponent = witchAuthRedirect(Dialogs);
 
 let mapDispatchToProps = (dispatch: (action: ActionsTypeDialogs) => void) => {
-    return {
-        newMessageBodyAC: (body: string) => {
-            dispatch(newMessageBodyAC(body))
-        },
-        sendMessage: () => {
-            dispatch(sendMessageAC())
-        }
-    }
-}
+  return {
+    newMessageBodyAC: (body: string) => {
+      dispatch(newMessageBodyAC(body));
+    },
+    sendMessage: () => {
+      dispatch(sendMessageAC());
+    },
+  };
+};
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+export const DialogsContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthRedirectComponent);
