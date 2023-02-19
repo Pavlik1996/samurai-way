@@ -3,7 +3,7 @@ import {Redirect} from "react-router-dom";
 import {AppStateType} from "../redux/redux-store";
 import {connect} from "react-redux";
 
-type ClassType = {
+type RedirectComponentType = {
     isAuth: boolean
 }
 
@@ -13,13 +13,11 @@ let mapSTateToPropsForRedirect = (state: AppStateType) => {
     };
 };
 
-const WitchAuthRedirect = (Component: ComponentType<any>) => {
-
-    class RedirectComponent extends React.Component<ClassType> {
-        render() {
-            if (!this.props.isAuth) return <Redirect to={'/login'}/>
-            return <Component {...this.props}/>
-        }
+function WitchAuthRedirect(Component: ComponentType<any>) {
+    function RedirectComponent(props: RedirectComponentType) {
+        const {isAuth, ...restProps} = props
+        if (!props.isAuth) return <Redirect to={'/login'}/>
+        return <Component {...restProps} />
     }
 
     return connect(mapSTateToPropsForRedirect)(RedirectComponent)
@@ -28,9 +26,18 @@ const WitchAuthRedirect = (Component: ComponentType<any>) => {
 export default WitchAuthRedirect;
 
 
-
-
-
+//
+// function WitchAuthRedirect<T>(Component: FC<T>) {
+//
+//     function RedirectComponent(props: RedirectComponentType) {
+//         const {isAuth, ...restProps} = props
+//         if (!props.isAuth) return <Redirect to={'/login'}/>
+//         return <Component {...(restProps as T)} />
+//
+//     }
+//
+//     return connect(mapSTateToPropsForRedirect)(RedirectComponent)
+// };
 
 
 
