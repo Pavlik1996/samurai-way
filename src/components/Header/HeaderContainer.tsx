@@ -26,7 +26,6 @@ class HeaderContainer extends React.Component<HeaderContainerType> {
 }
 
 const mapStateToProps = (state: AppStateType) => {
-  console.log(state);
 
   return {
     data: state.auth.data,
