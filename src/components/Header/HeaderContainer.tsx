@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import { connect } from "react-redux";
-import {getAuthUserData} from "../../redux/auth-reducer";
+import { getAuthUserData } from "../../redux/auth-reducer";
 import { AppStateType } from "../../redux/redux-store";
 
 type HeaderContainerType = {
@@ -11,7 +11,6 @@ type HeaderContainerType = {
     email: string;
   };
   getAuthUserData: () => void;
-  resultCode: number;
   isAuth: boolean;
 };
 
@@ -21,12 +20,11 @@ class HeaderContainer extends React.Component<HeaderContainerType> {
   }
 
   render() {
-    return <Header {...this.props}  />;
+    return <Header {...this.props} />;
   }
 }
 
 const mapStateToProps = (state: AppStateType) => {
-
   return {
     data: state.auth.data,
     resultCode: state.auth.resultCode,

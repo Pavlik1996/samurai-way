@@ -4,10 +4,8 @@ import logo from "../../assets/images/logo-facebook-noir.png";
 import { NavLink } from "react-router-dom";
 
 type HeaderType = {
-    data: {
-        login: string;
-    }
-    isAuth: boolean;
+  data: { login: string };
+  isAuth: boolean;
 };
 
 const Header = (props: HeaderType) => {
@@ -15,7 +13,11 @@ const Header = (props: HeaderType) => {
     <header className={s.header}>
       <img src={logo} alt="logo" />
       <div className={s.loginBlock}>
-        {props.isAuth ? props.data.login : <NavLink to={"/login"}>Login</NavLink>}
+        {props.isAuth ? (
+          props.data.login
+        ) : (
+          <NavLink to={"/login"}>Login</NavLink>
+        )}
       </div>
     </header>
   );

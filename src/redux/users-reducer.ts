@@ -6,7 +6,7 @@ export type UserPageType = {
   pageSize: number;
   totalCount: number;
   currentPage: number;
-  // error: null
+  error: null;
   isFetching: boolean;
   isFollowing: number[];
 };
@@ -28,7 +28,7 @@ const initialState: UserPageType = {
   pageSize: 5,
   totalCount: 0,
   currentPage: 1,
-  // error: null,
+  error: null,
   isFetching: true,
   isFollowing: [],
 };
@@ -141,6 +141,8 @@ export const getUsers = (currentPage: number, pageSize: number) => {
   return (dispatch: Dispatch<ActionsTypeUsers>) => {
     dispatch(setIsFetching(true));
     userAPI.getUsers(currentPage, pageSize).then((r) => {
+      console.log(r);
+
       dispatch(setIsFetching(false));
       dispatch(setUsers(r.data.items));
       dispatch(setTotalUsersCount(r.data.totalCount));
