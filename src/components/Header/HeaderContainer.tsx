@@ -4,17 +4,22 @@ import { connect } from "react-redux";
 import { getAuthUserData } from "../../redux/auth-reducer";
 import { AppStateType } from "../../redux/redux-store";
 
-type HeaderContainerType = {
+type mapStateToDispatch = {
+  getAuthUserData: () => void;
+};
+
+type mapStateToPropsType = {
   data: {
     id: number;
     login: string;
     email: string;
   };
-  getAuthUserData: () => void;
   isAuth: boolean;
 };
 
-class HeaderContainer extends React.Component<HeaderContainerType> {
+type PropsType = mapStateToDispatch & mapStateToPropsType;
+
+class HeaderContainer extends React.Component<PropsType> {
   componentDidMount() {
     this.props.getAuthUserData();
   }
@@ -24,10 +29,9 @@ class HeaderContainer extends React.Component<HeaderContainerType> {
   }
 }
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
   return {
     data: state.auth.data,
-    resultCode: state.auth.resultCode,
     isAuth: state.auth.isAuth,
   };
 };
