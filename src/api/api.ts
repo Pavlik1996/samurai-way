@@ -1,8 +1,15 @@
 import axios from "axios";
+import { type } from "os";
 import { ProfileInfoType } from "../redux/store";
 import { UsersType } from "../redux/users-reducer";
 
 type PostDeleteType = {
+  resultCode: number;
+  messages: string[];
+  data: {};
+};
+
+type UpdateStatus = {
   resultCode: number;
   messages: string[];
   data: {};
@@ -45,8 +52,19 @@ export const userAPI = {
   unFollow(id: number) {
     return instance.delete<PostDeleteType>(`follow/${id}`);
   },
-  getProfile(userID: string) {
-    return instance.get<ProfileInfoType>(`profile/${userID}`);
+};
+
+export const profileAPI = {
+  getProfile(userId: string) {
+    return instance.get<ProfileInfoType>(`profile/${userId}`);
+  },
+  getStatus(userId: string) {
+    return instance.get(`/profile/status/${userId}`);
+  },
+  updateStatus(newStatus: string) {
+    return instance.put<UpdateStatus>(`/profile/status`, {
+      status: newStatus,
+    });
   },
 };
 

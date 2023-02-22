@@ -18,6 +18,7 @@ export type ProfilePageType = {
   posts: PostsType[];
   newPostText: string;
   profile: ProfileInfoType;
+  status: string;
 };
 
 export type ProfileInfoType = {
@@ -28,7 +29,7 @@ export type ProfileInfoType = {
     vk: string;
     twitter: string;
     instagram: string;
-    youtube: null;
+    youtube: string;
     github: string;
     mainLink: null;
   };

@@ -1,30 +1,29 @@
-import React, {ComponentType} from 'react';
-import {Redirect} from "react-router-dom";
-import {AppStateType} from "../redux/redux-store";
-import {connect} from "react-redux";
+import React, { ComponentType } from "react";
+import { Redirect } from "react-router-dom";
+import { AppStateType } from "../redux/redux-store";
+import { connect } from "react-redux";
 
 type RedirectComponentType = {
-    isAuth: boolean
-}
+  isAuth: boolean;
+};
 
 let mapSTateToPropsForRedirect = (state: AppStateType) => {
-    return {
-        isAuth: state.auth.isAuth,
-    };
+  return {
+    isAuth: state.auth.isAuth,
+  };
 };
 
 function WitchAuthRedirect(Component: ComponentType<any>) {
-    function RedirectComponent(props: RedirectComponentType) {
-        const {isAuth, ...restProps} = props
-        if (!props.isAuth) return <Redirect to={'/login'}/>
-        return <Component {...restProps} />
-    }
+  function RedirectComponent(props: RedirectComponentType) {
+    const { isAuth, ...restProps } = props;
+    if (!props.isAuth) return <Redirect to={"/login"} />;
+    return <Component {...restProps} />;
+  }
 
-    return connect(mapSTateToPropsForRedirect)(RedirectComponent)
-};
+  return connect(mapSTateToPropsForRedirect)(RedirectComponent);
+}
 
 export default WitchAuthRedirect;
-
 
 //
 // function WitchAuthRedirect<T>(Component: FC<T>) {
@@ -38,12 +37,3 @@ export default WitchAuthRedirect;
 //
 //     return connect(mapSTateToPropsForRedirect)(RedirectComponent)
 // };
-
-
-
-
-
-
-
-
-

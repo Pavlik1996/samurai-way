@@ -16,12 +16,11 @@ type PropsUsersType = {
 };
 
 export const Users = (props: PropsUsersType) => {
-  let pagesCount = Math.ceil(props.totalCount / props.pageSize);
+  // let pagesCount = Math.ceil(props.totalCount / props.pageSize);
   let pages = [];
   for (let i = 1; i <= 30; i++) {
     pages.push(i);
   }
-
   return (
     <div>
       <div>
@@ -36,7 +35,6 @@ export const Users = (props: PropsUsersType) => {
             </span>
           );
         })}
-        <span>{pagesCount}</span>
       </div>
       {props.items.map((el) => (
         <div key={el.id} style={{ display: "flex" }}>
