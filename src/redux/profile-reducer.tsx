@@ -107,7 +107,7 @@ export const setStatus = (status: string) => {
 export const getStatus =
   (userId: string) => (dispatch: Dispatch<ActionsTypeProfile>) => {
     profileAPI.getStatus(userId).then((r) => {
-      dispatch(setStatus(r.data));
+      dispatch(setStatus(r.data.status));
     });
   };
 

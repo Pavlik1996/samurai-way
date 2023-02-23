@@ -9,10 +9,10 @@ type PostDeleteType = {
   data: {};
 };
 
-type UpdateStatus = {
-  resultCode: number;
-  messages: string[];
-  data: {};
+type UpdateStatus = PostDeleteType;
+
+type getStatusType = {
+  status: string;
 };
 
 type AuthType = {
@@ -59,7 +59,7 @@ export const profileAPI = {
     return instance.get<ProfileInfoType>(`profile/${userId}`);
   },
   getStatus(userId: string) {
-    return instance.get(`/profile/status/${userId}`);
+    return instance.get<getStatusType>(`/profile/status/${userId}`);
   },
   updateStatus(newStatus: string) {
     return instance.put<UpdateStatus>(`/profile/status`, {
