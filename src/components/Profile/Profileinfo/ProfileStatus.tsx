@@ -15,7 +15,7 @@ export class ProfileStatus extends React.Component<ProfileStatusType> {
     this.setState({ editMode: true });
   };
 
-  diactivateEditMode = () => {
+  diActivateEditMode = () => {
     this.setState({ editMode: false });
     this.props.updateStatus(this.state.status);
   };
@@ -23,6 +23,12 @@ export class ProfileStatus extends React.Component<ProfileStatusType> {
   onChange = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({ status: e.currentTarget.value });
   };
+
+  componentDidUpdate(prevProps: ProfileStatusType) {
+    if (prevProps.status !== this.props.status) {
+      this.setState({ status: this.props.status });
+    }
+  }
 
   render() {
     return (
@@ -33,7 +39,7 @@ export class ProfileStatus extends React.Component<ProfileStatusType> {
               onChange={this.onChange}
               value={this.state.status}
               autoFocus
-              onBlur={this.diactivateEditMode}
+              onBlur={this.diActivateEditMode}
             />
           </div>
         ) : (
