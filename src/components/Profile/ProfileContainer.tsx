@@ -15,7 +15,7 @@ type PathParamsType = {
   userId: string;
 };
 
-type PropsType = RouteChildrenProps<PathParamsType> &    OwnPropsType;
+type PropsType = RouteChildrenProps<PathParamsType> & OwnPropsType;
 
 type MapStatePropsType = {
   profile: ProfileInfoType;

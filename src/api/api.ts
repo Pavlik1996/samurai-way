@@ -1,5 +1,4 @@
 import axios from "axios";
-import { type } from "os";
 import { ProfileInfoType } from "../redux/store";
 import { UsersType } from "../redux/users-reducer";
 
@@ -10,10 +9,6 @@ type PostDeleteType = {
 };
 
 type UpdateStatus = PostDeleteType;
-
-type getStatusType = {
-  status: string;
-};
 
 type AuthType = {
   data: {
@@ -59,7 +54,7 @@ export const profileAPI = {
     return instance.get<ProfileInfoType>(`profile/${userId}`);
   },
   getStatus(userId: string) {
-    return instance.get<getStatusType>(`/profile/status/${userId}`);
+    return instance.get<string>(`/profile/status/${userId}`);
   },
   updateStatus(newStatus: string) {
     return instance.put<UpdateStatus>(`/profile/status`, {
