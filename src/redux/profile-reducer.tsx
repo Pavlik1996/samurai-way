@@ -41,25 +41,16 @@ export const profileReducer = (
   action: ActionsTypeProfile
 ): ProfilePageType => {
   switch (action.type) {
-    case "CHANGE-NEW-TEXT":
+    case "ADD-POST":
+      const newPost: PostsType = {
+        id: 6,
+        messages: action.payload.myPostMessage,
+        like: 0,
+      };
       return {
         ...state,
-        newPostText: action.newText,
+        posts: [...state.posts, newPost],
       };
-    case "ADD-POST":
-      if (state.newPostText.trim() !== "") {
-        const newPost: PostsType = {
-          id: 6,
-          messages: state.newPostText,
-          like: 0,
-        };
-        return {
-          ...state,
-          posts: [...state.posts, newPost],
-          newPostText: "",
-        };
-      }
-      return state;
     case "SET-USER-PROFILE": {
       return { ...state, profile: action.profile };
     }
@@ -73,20 +64,13 @@ export const profileReducer = (
 
 export type ActionsTypeProfile =
   | ReturnType<typeof addPostAC>
-  | ReturnType<typeof changeNewTextAC>
   | ReturnType<typeof setUserProfile>
   | ReturnType<typeof setStatus>;
 
-export const addPostAC = () => {
+export const addPostAC = (myPostMessage: string) => {
   return {
     type: "ADD-POST",
-  } as const;
-};
-
-export const changeNewTextAC = (newText: string) => {
-  return {
-    type: "CHANGE-NEW-TEXT",
-    newText: newText,
+    payload: { myPostMessage },
   } as const;
 };
 

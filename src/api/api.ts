@@ -10,7 +10,7 @@ type PostDeleteType = {
 
 type UpdateStatus = PostDeleteType;
 
-type AuthType = {
+type MeAuthType = {
   data: {
     id: number;
     login: string;
@@ -25,6 +25,20 @@ type getUsersType = {
   items: UsersType[];
   totalCount: number;
   error: null;
+};
+
+type LoginPostAuthType = {
+  resultCode: number;
+  messages: [];
+  data: {
+    userId: number;
+  };
+};
+
+type LoginDeleteAuthType = {
+  resultCode: number;
+  messages: string[];
+  data: {};
 };
 
 const instance = axios.create({
@@ -56,15 +70,25 @@ export const profileAPI = {
   getStatus(userId: string) {
     return instance.get<string>(`/profile/status/${userId}`);
   },
-  updateStatus(newStatus: string) {
+  updateStatus(status: string) {
     return instance.put<UpdateStatus>(`/profile/status`, {
-      status: newStatus,
+      status: status,
     });
   },
 };
 
 export const authAPI = {
   me() {
-    return instance.get<AuthType>("auth/me");
+    return instance.get<MeAuthType>("auth/me");
+  },
+  signIn(email: string, password: string, rememberMe: boolean) {
+    return instance.post<LoginPostAuthType>("/auth/login", {
+      email,
+      password,
+      rememberMe,
+    });
+  },
+  signOut() {
+    return instance.delete<LoginDeleteAuthType>("/auth/login");
   },
 };

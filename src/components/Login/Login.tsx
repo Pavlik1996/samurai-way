@@ -1,10 +1,14 @@
 import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 
-type FormDataType = {
+export type FormDataType = {
   login: string;
   password: string;
   rememberme: boolean;
+};
+
+type LoginType = {
+  onSubmit: (fromData: FormDataType) => void;
 };
 
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
@@ -31,11 +35,10 @@ const LoginReduxForm = reduxForm<FormDataType>({
   form: "login", // уникальное строкове имя
 })(LoginForm);
 
-export const Login = () => {
+export const Login = (props: LoginType) => {
   const onSubmit = (fromData: FormDataType) => {
-    console.log(fromData);
+    props.onSubmit(fromData);
   };
-
   return (
     <div>
       <h2>Login</h2>
