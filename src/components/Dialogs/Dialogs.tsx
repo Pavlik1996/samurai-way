@@ -3,30 +3,11 @@ import { Message } from "./Message/Message";
 import { DialogItem } from "./DialogItem/DialogItem";
 import React from "react";
 import { MessagesPageType } from "../../redux/store";
-import { Field, InjectedFormProps, reduxForm } from "redux-form";
+import AddMessageForm from "./AddMessageForm/AddMessageForm";
 
 type valueType = {
   newMessageBody: string;
 };
-
-const AddMessageForm: React.FC<InjectedFormProps<valueType>> = (props) => {
-  return (
-    <form onSubmit={props.handleSubmit}>
-      <Field
-        component={"textarea"}
-        name={"newMessageBody"}
-        placeholder={"enter tour message"}
-      />
-      <div>
-        <button>Send</button>
-      </div>
-    </form>
-  );
-};
-
-const AddMessageFormRedux = reduxForm<valueType>({
-  form: "DialogAddMessageForm",
-})(AddMessageForm);
 
 export type DialogsPropsType = {
   sendMessage: (value: string) => void;
@@ -53,7 +34,7 @@ export const Dialogs = (props: DialogsPropsType) => {
       <div className={s.messages}>
         <div>{messagesElements}</div>
         <div>
-          <AddMessageFormRedux onSubmit={addNewMessage} />
+          <AddMessageForm onSubmit={addNewMessage} />
         </div>
       </div>
     </div>

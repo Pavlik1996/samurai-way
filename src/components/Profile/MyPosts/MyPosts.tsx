@@ -3,6 +3,11 @@ import Post from "./Post/Post";
 import s from "./MyPosts.module.css";
 import { PostsType } from "../../../redux/store";
 import { Field, Form, InjectedFormProps, reduxForm } from "redux-form";
+import {
+  maxLengthCreator,
+  required,
+} from "../../../utils/validators/validators";
+import { Textarea } from "../../common/FormsControls/FormsControls";
 
 type MyPostsType = {
   posts: PostsType[];
@@ -15,18 +20,19 @@ type valueType = {
   myPostMessage: string;
 };
 
+const maxLength10 = maxLengthCreator(10);
+
 const AddNewPostForm: React.FC<InjectedFormProps<valueType>> = ({
   handleSubmit,
 }) => {
   return (
     <Form onSubmit={handleSubmit}>
-      <div>
-        <Field
-          component={"textarea"}
-          placeholder={"enter tour message"}
-          name={"myPostMessage"}
-        />
-      </div>
+      <Field
+        component={Textarea}
+        name={"myPostMessage"}
+        placeholder={"post message"}
+        validate={[required, maxLength10]}
+      />
       <div>
         <button>Send post</button>
       </div>
@@ -34,7 +40,7 @@ const AddNewPostForm: React.FC<InjectedFormProps<valueType>> = ({
   );
 };
 
-const MyPostFormRedux = reduxForm<valueType>({
+const AddNewPostFormRedux = reduxForm<valueType>({
   form: "MyPostFormRedux",
 })(AddNewPostForm);
 
@@ -51,7 +57,7 @@ export const MyPosts = (props: MyPostsType) => {
     <div className={s.pastBlock}>
       <div>
         <h3>My post</h3>
-        <MyPostFormRedux onSubmit={onAddPost} />
+        <AddNewPostFormRedux onSubmit={onAddPost} />
       </div>
       <div className={s.posts}>{postsElements}</div>
     </div>
