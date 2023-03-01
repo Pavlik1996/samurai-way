@@ -7,10 +7,9 @@ import { Settings } from "./components/Settings/Settings";
 import { News } from "./components/News/News";
 import { UserComponent } from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import { Login } from "./components/Login/Login";
 import { DialogsComponent } from "./components/Dialogs/DialogsContainer";
 import { ProfileComponent } from "./components/Profile/ProfileContainer";
-import { LoginContainer } from "./components/Login/LoginContainer";
+import Login from "./components/Login/Login";
 
 export const App = () => {
   return (
@@ -25,7 +24,7 @@ export const App = () => {
           <Route path="/music" render={() => <Music />} />
           <Route path="/settings" render={() => <Settings />} />
           <Route path="/users" render={() => <UserComponent />} />
-          <Route path="/login" render={() => <LoginContainer />} />
+          <Route path="/login" render={() => <Login />} />
         </div>
       </div>
     </BrowserRouter>

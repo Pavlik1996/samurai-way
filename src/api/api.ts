@@ -81,14 +81,14 @@ export const authAPI = {
   me() {
     return instance.get<MeAuthType>("auth/me");
   },
-  signIn(email: string, password: string, rememberMe: boolean) {
+  login(email: string, password: string, rememberMe: boolean = false) {
     return instance.post<LoginPostAuthType>("/auth/login", {
       email,
       password,
       rememberMe,
     });
   },
-  signOut() {
+  logOut() {
     return instance.delete<LoginDeleteAuthType>("/auth/login");
   },
 };
