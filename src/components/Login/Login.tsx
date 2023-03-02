@@ -6,6 +6,7 @@ import { login, logOut } from "../../redux/auth-reducer";
 import { AppStateType } from "../../redux/redux-store";
 import { required } from "../../utils/validators/validators";
 import { Input } from "../common/FormsControls/FormsControls";
+import s from "../common/FormsControls/FormsControls.module.css";
 
 export type FormDataType = {
   email: string;
@@ -48,10 +49,11 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
           component={Input}
           name={"rememberme"}
           type={"checkbox"}
-          validate={[required]}
+          // validate={[required]}
         />
         <span>remember me</span>
       </div>
+      {props.error && <div className={s.formSummaryError}>{props.error}</div>}
       <div>
         <button>Login</button>
       </div>

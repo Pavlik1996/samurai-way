@@ -1,4 +1,5 @@
-import { AnyAction, Dispatch } from "redux";
+import { Dispatch } from "redux";
+import { stopSubmit } from "redux-form";
 import { authAPI } from "../api/api";
 import { TypedDispatch } from "./redux-store";
 
@@ -8,7 +9,7 @@ export type stateAuthType = {
   resultCode: number;
   isAuth: boolean;
   data: {
-    id: number | null;
+    id: any;
     login: string | null;
     email: string | null;
   };
@@ -37,7 +38,7 @@ export const AuthReducer = (
 };
 
 type AuthActionsType = ReturnType<typeof setAuthUserData>;
-type textType = ReturnType<typeof getAuthUserData>;
+type dispatchType = ReturnType<typeof getAuthUserData>;
 
 export const setAuthUserData = (
   id: number | null,
@@ -64,10 +65,14 @@ export const getAuthUserData = () => {
 
 export const login =
   (email: string, password: string, rememberMe: boolean) =>
-  (dispatch: TypedDispatch<textType>) => {
+  (dispatch: TypedDispatch<dispatchType>) => {
     authAPI.login(email, password, rememberMe).then((r) => {
       if (r.data.resultCode === 0) {
         dispatch(getAuthUserData());
+      } else {
+        let message =
+          r.data.messages.length > 0 ? r.data.messages[0] : "Some error";
+        dispatch(stopSubmit("login", { _error: message })); // ACTIONCREATOR from redux-form
       }
     });
   };

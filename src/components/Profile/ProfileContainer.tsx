@@ -20,11 +20,13 @@ type PropsType = RouteChildrenProps<PathParamsType> & OwnPropsType;
 type MapStatePropsType = {
   profile: ProfileInfoType;
   status: string;
+  authrorizedUserId: any;
+  isAuth: boolean;
 };
 
 type MapDispatchPropsType = {
-  getUserProfile: (userId: string) => void;
-  getStatus: (userId: string) => void;
+  getUserProfile: (userId: any) => void;
+  getStatus: (userId: any) => void;
   updateStatus: (status: string) => void;
 };
 
@@ -34,8 +36,11 @@ class ProfileContainer extends React.Component<PropsType> {
   componentDidMount() {
     let userId = this.props.match?.params.userId;
 
-    this.props.getUserProfile(userId ? userId : "27631");
-    this.props.getStatus(userId ? userId : "27631");
+    if (!userId) {
+      userId = this.props.authrorizedUserId;
+    }
+    this.props.getUserProfile(userId);
+    this.props.getStatus(userId);
   }
 
   render() {
@@ -55,6 +60,8 @@ let mapSTateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,
+    authrorizedUserId: state.auth.data.id,
+    isAuth: state.auth.isAuth,
   };
 };
 

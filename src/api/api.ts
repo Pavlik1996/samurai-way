@@ -29,7 +29,7 @@ type getUsersType = {
 
 type LoginPostAuthType = {
   resultCode: number;
-  messages: [];
+  messages: string[];
   data: {
     userId: number;
   };
