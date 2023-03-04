@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { stopSubmit } from "redux-form";
 import { authAPI } from "../api/api";
 import { TypedDispatch } from "./redux-store";
+import { ProfileInfoType } from "./store";
 
 export type stateAuthType = {
   messages: [];
@@ -37,7 +38,7 @@ export const AuthReducer = (
   }
 };
 
-type AuthActionsType = ReturnType<typeof setAuthUserData>;
+export type AuthActionsType = ReturnType<typeof setAuthUserData>;
 type dispatchType = ReturnType<typeof getAuthUserData>;
 
 export const setAuthUserData = (
@@ -52,30 +53,28 @@ export const setAuthUserData = (
   } as const;
 };
 
-export const getAuthUserData = () => {
-  return (dispatch: Dispatch<AuthActionsType>) => {
-    authAPI.me().then((r) => {
-      if (r.data.resultCode === 0) {
-        let { id, login, email } = r.data.data;
-        dispatch(setAuthUserData(id, login, email, true));
-      }
-    });
-  };
+export const getAuthUserData = (): (dispatch: any) => Promise<any> => async (dispatch: any) => {
+  const r = await authAPI.me();
+  if (r.data.resultCode === 0) {
+    let { id, login, email } = r.data.data;
+    dispatch(setAuthUserData(id, login, email, true));
+  }
 };
+
 
 export const login =
   (email: string, password: string, rememberMe: boolean) =>
-  (dispatch: TypedDispatch<dispatchType>) => {
-    authAPI.login(email, password, rememberMe).then((r) => {
-      if (r.data.resultCode === 0) {
-        dispatch(getAuthUserData());
-      } else {
-        let message =
-          r.data.messages.length > 0 ? r.data.messages[0] : "Some error";
-        dispatch(stopSubmit("login", { _error: message })); // ACTIONCREATOR from redux-form
-      }
-    });
-  };
+    (dispatch: TypedDispatch<dispatchType>) => {
+      authAPI.login(email, password, rememberMe).then((r) => {
+        if (r.data.resultCode === 0) {
+          dispatch(getAuthUserData());
+        } else {
+          let message =
+            r.data.messages.length > 0 ? r.data.messages[0] : "Some error";
+          dispatch(stopSubmit("login", { _error: message })); // ACTIONCREATOR from redux-form
+        }
+      });
+    };
 
 export const logOut =
   () => (dispatch: Dispatch<ReturnType<typeof setAuthUserData>>) => {

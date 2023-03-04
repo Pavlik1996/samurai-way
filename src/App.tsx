@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
 import { Music } from "./components/Music/Music";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { Settings } from "./components/Settings/Settings";
 import { News } from "./components/News/News";
 import { UserComponent } from "./components/Users/UsersContainer";
@@ -10,10 +10,21 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import { DialogsComponent } from "./components/Dialogs/DialogsContainer";
 import { ProfileComponent } from "./components/Profile/ProfileContainer";
 import Login from "./components/Login/Login";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { initializeApp } from "./redux/app-reducer";
 
-export const App = () => {
-  return (
-    <BrowserRouter>
+type PropsType = {
+  initializeApp: () => void
+}
+
+class App extends React.Component<PropsType>{
+  componentDidMount() {
+    this.props.initializeApp();
+  }
+
+  render() {
+    return (
       <div className="app-wrapper">
         <HeaderContainer />
         <Nav />
@@ -27,6 +38,12 @@ export const App = () => {
           <Route path="/login" render={() => <Login />} />
         </div>
       </div>
-    </BrowserRouter>
-  );
+    );
+  }
 };
+
+// export default compose(
+//   (connect(null, { getAuthUserData }), withRouter)(App))
+
+
+export const AppComponent =  compose<FC>(connect(null, {initializeApp }), withRouter)(App)
