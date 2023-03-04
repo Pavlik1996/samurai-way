@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { AuthActionsType, getAuthUserData } from "./auth-reducer";
+import {  getAuthUserData } from "./auth-reducer";
 
 
 export type stateAppType = {
@@ -8,7 +8,7 @@ export type stateAppType = {
 
 const initialState: stateAppType = { initialized: false }
 
-export const AuthReducer = (state = initialState, action:AppReducerZctionsType ): stateAppType => {
+export const Appreducer = (state = initialState, action:AppReducerZctionsType ): stateAppType => {
   switch (action.type) {
     case "ITITIALIZED":
       return {
@@ -27,7 +27,7 @@ export const initializedSuccess = () => {
   } as const
 }
 
-export const initializeApp = () => (dispatch: Dispatch<any>)=> {
+export const initializeApp = () => (dispatch: any)=> {
     dispatch(getAuthUserData())
         .then(() => dispatch(initializedSuccess()))
 }

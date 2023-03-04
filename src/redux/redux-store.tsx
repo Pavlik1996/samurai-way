@@ -8,8 +8,10 @@ import { profileReducer } from "./profile-reducer";
 import { dialogsReducer } from "./dialogs-reducer";
 import { usersReducer } from "./users-reducer";
 import { AuthReducer } from "./auth-reducer";
-import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
+import thunkMiddleware, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
+import { ActionTypes } from "./store";
+import { Appreducer } from "./app-reducer";
 
 let reducers = combineReducers({
   profilePage: profileReducer,
@@ -18,13 +20,17 @@ let reducers = combineReducers({
   // sidebar: sidebarReducer
   auth: AuthReducer,
   form: formReducer,
+  app: Appreducer
 });
+
+
 
 export type AppStateType = ReturnType<typeof reducers>;
 
 export let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 export type AppDispatch = typeof store.dispatch;
 export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionTypes>
 
 //@ts-ignore
 window.store = store;

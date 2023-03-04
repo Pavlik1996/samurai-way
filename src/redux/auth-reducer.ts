@@ -1,8 +1,8 @@
 import { Dispatch } from "redux";
 import { stopSubmit } from "redux-form";
+import { ThunkAction } from "redux-thunk";
 import { authAPI } from "../api/api";
-import { TypedDispatch } from "./redux-store";
-import { ProfileInfoType } from "./store";
+import { AppThunk, TypedDispatch } from "./redux-store";
 
 export type stateAuthType = {
   messages: [];
@@ -15,6 +15,12 @@ export type stateAuthType = {
     email: string | null;
   };
 };
+
+type DataType = {
+  id: any;
+  login: string | null;
+  email: string | null;
+}
 
 const initialState: stateAuthType = {} as stateAuthType;
 
@@ -53,12 +59,13 @@ export const setAuthUserData = (
   } as const;
 };
 
-export const getAuthUserData = (): (dispatch: any) => Promise<any> => async (dispatch: any) => {
-  const r = await authAPI.me();
-  if (r.data.resultCode === 0) {
-    let { id, login, email } = r.data.data;
-    dispatch(setAuthUserData(id, login, email, true));
-  }
+export const getAuthUserData = () => (dispatch: Dispatch<AuthActionsType>) => {
+  return authAPI.me().then((r) => {
+    if (r.data.resultCode === 0) {
+      let { id, login, email } = r.data.data;
+      dispatch(setAuthUserData(id, login, email, true));
+    }
+  });
 };
 
 

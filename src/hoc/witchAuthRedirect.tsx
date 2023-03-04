@@ -25,15 +25,3 @@ function WitchAuthRedirect(Component: ComponentType<any>) {
 
 export default WitchAuthRedirect;
 
-//
-// function WitchAuthRedirect<T>(Component: FC<T>) {
-//
-//     function RedirectComponent(props: RedirectComponentType) {
-//         const {isAuth, ...restProps} = props
-//         if (!props.isAuth) return <Redirect to={'/login'}/>
-//         return <Component {...(restProps as T)} />
-//
-//     }
-//
-//     return connect(mapSTateToPropsForRedirect)(RedirectComponent)
-// };

@@ -13,9 +13,12 @@ import Login from "./components/Login/Login";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { initializeApp } from "./redux/app-reducer";
+import { AppStateType } from "./redux/redux-store";
+import { Preloader } from "./components/common/Preloader/Preloader";
 
 type PropsType = {
   initializeApp: () => void
+  initialize: boolean
 }
 
 class App extends React.Component<PropsType>{
@@ -24,26 +27,27 @@ class App extends React.Component<PropsType>{
   }
 
   render() {
-    return (
-      <div className="app-wrapper">
-        <HeaderContainer />
-        <Nav />
-        <div className={"app-wrapper-content"}>
-          <Route path="/profile/:userId?" render={() => <ProfileComponent />} />
-          <Route path="/dialogs" render={() => <DialogsComponent />} />
-          <Route path="/news" render={() => <News />} />
-          <Route path="/music" render={() => <Music />} />
-          <Route path="/settings" render={() => <Settings />} />
-          <Route path="/users" render={() => <UserComponent />} />
-          <Route path="/login" render={() => <Login />} />
+    return !this.props.initialize
+      ? <Preloader />
+      : <div className="app-wrapper">
+          <HeaderContainer />
+          <Nav />
+          <div className={"app-wrapper-content"}>
+            <Route path="/profile/:userId?" render={() => <ProfileComponent />} />
+            <Route path="/dialogs" render={() => <DialogsComponent />} />
+            <Route path="/news" render={() => <News />} />
+            <Route path="/music" render={() => <Music />} />
+            <Route path="/settings" render={() => <Settings />} />
+            <Route path="/users" render={() => <UserComponent />} />
+            <Route path="/login" render={() => <Login />} />
+          </div>
         </div>
-      </div>
-    );
   }
 };
 
-// export default compose(
-//   (connect(null, { getAuthUserData }), withRouter)(App))
+const mapStateToprop = (state: AppStateType) => ({
+  initialize: state.app.initialized
+})
 
 
-export const AppComponent =  compose<FC>(connect(null, {initializeApp }), withRouter)(App)
+export const AppComponent = compose<FC>(connect(mapStateToprop, { initializeApp }), withRouter)(App)

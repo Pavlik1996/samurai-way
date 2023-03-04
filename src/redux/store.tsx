@@ -1,3 +1,9 @@
+import { initializedSuccess } from "./app-reducer";
+import { setAuthUserData } from "./auth-reducer";
+import { sendMessageAC } from "./dialogs-reducer";
+import { addPostAC, setUserProfile, setStatus } from "./profile-reducer";
+import { acceptFollow, acceptUnFollow, setUsers, setCurrentPage, setTotalUsersCount, setIsFetching, toggleIsFollowing } from "./users-reducer";
+
 export type DialogsType = {
   id: number;
   name: string;
@@ -48,3 +54,18 @@ export type MessagesPageType = {
   dialogs: DialogsType[];
   newMessageBody: string;
 };
+
+export type ActionTypes =
+  ReturnType<typeof setAuthUserData>
+  | ReturnType<typeof sendMessageAC>
+  | ReturnType<typeof addPostAC>
+  | ReturnType<typeof setUserProfile>
+  | ReturnType<typeof setStatus>
+  | ReturnType<typeof acceptFollow>
+  | ReturnType<typeof acceptUnFollow>
+  | ReturnType<typeof setUsers>
+  | ReturnType<typeof setCurrentPage>
+  | ReturnType<typeof setTotalUsersCount>
+  | ReturnType<typeof setIsFetching>
+  | ReturnType<typeof toggleIsFollowing>
+  | ReturnType<typeof initializedSuccess>
