@@ -4,7 +4,6 @@ import {AppStateType} from "../../redux/redux-store";
 import {
     follow,
     getUsers,
-    setCurrentPage,
     toggleIsFollowing,
     unFollow,
     UsersType,
@@ -13,6 +12,7 @@ import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 import witchAuthRedirect from "../../hoc/witchAuthRedirect";
 import {compose} from "redux";
+import { getCurrentPage, getIsAuth, getIsFetching, getIsFollowing, getItems, getPageSize, getTotalCount } from "../../redux/users-selectors";
 
 type PropsUsersType = mapStateToPropsType & mapStateToDispatchType;
 
@@ -61,15 +61,28 @@ class UserContainer extends React.Component<PropsUsersType> {
     }
 }
 
+// const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+//     return {
+//         items: state.usersPage.items,
+//         pageSize: state.usersPage.pageSize,
+//         totalCount: state.usersPage.totalCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         isFollowing: state.usersPage.isFollowing,
+//         isAuth: state.auth.isAuth,
+//     };
+// };
+
+
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
-        items: state.usersPage.items,
-        pageSize: state.usersPage.pageSize,
-        totalCount: state.usersPage.totalCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isFollowing: state.usersPage.isFollowing,
-        isAuth: state.auth.isAuth,
+        items: getItems(state),
+        pageSize: getPageSize(state),
+        totalCount: getTotalCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        isFollowing: getIsFollowing(state),
+        isAuth: getIsAuth(state),
     };
 };
 
