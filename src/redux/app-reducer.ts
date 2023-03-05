@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import {  getAuthUserData } from "./auth-reducer";
+import { AppDispatch } from "./redux-store";
 
 
 export type stateAppType = {
@@ -27,7 +28,7 @@ export const initializedSuccess = () => {
   } as const
 }
 
-export const initializeApp = () => (dispatch: any)=> {
+export const initializeApp = () => (dispatch: AppDispatch)=> {
     dispatch(getAuthUserData())
         .then(() => dispatch(initializedSuccess()))
 }

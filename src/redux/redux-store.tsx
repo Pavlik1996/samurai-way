@@ -28,9 +28,17 @@ let reducers = combineReducers({
 export type AppStateType = ReturnType<typeof reducers>;
 
 export let store = createStore(reducers, applyMiddleware(thunkMiddleware));
-export type AppDispatch = typeof store.dispatch;
+
+// export type AppDispatch = typeof store.dispatch;
+
+export type AppDispatch = ThunkDispatch<RootState, unknown, ActionTypes>
+
 export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
+
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionTypes>
+
+export type RootState = ReturnType<typeof store.getState>
+
 
 //@ts-ignore
 window.store = store;
