@@ -29,7 +29,6 @@ type mapStateToPropsType = {
 type mapStateToDispatchType = {
     follow: (id: number) => void;
     unFollow: (id: number) => void;
-    setCurrentPage: (page: number) => void;
     toggleIsFollowing: (isFollowing: boolean, id: number) => void;
     getUsers: (currentPage: number, pageSize: number) => void;
 };
@@ -41,7 +40,6 @@ class UserContainer extends React.Component<PropsUsersType> {
 
     onClickHandlerChangePage = (page: number) => {
         this.props.getUsers(page, this.props.currentPage);
-        this.props.setCurrentPage(page);
     };
 
     render() {
@@ -79,7 +77,6 @@ export const UserComponent = compose(
     connect(mapStateToProps, {
         follow,
         unFollow,
-        setCurrentPage,
         toggleIsFollowing,
         getUsers,
     }),
