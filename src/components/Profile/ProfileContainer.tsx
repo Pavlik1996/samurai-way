@@ -60,7 +60,6 @@ class ProfileContainer extends React.Component<PropsType> {
 }
 
 let mapSTateToProps = (state: AppStateType): MapStatePropsType => {
-  debugger
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,

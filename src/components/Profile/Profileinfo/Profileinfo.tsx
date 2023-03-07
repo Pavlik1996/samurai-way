@@ -2,6 +2,7 @@ import React from "react";
 import s from "./ProfileInfo.module.css";
 import { ProfileInfoType } from "../../../redux/store";
 import { ProfileStatus } from "./ProfileStatus";
+import { ProfileStatusWitchHooc } from "./ProfileStatusWitchHooc";
 
 type ProfileType = {
   profile: ProfileInfoType;
@@ -14,7 +15,7 @@ const ProfileInfo = (props: ProfileType) => {
     <div>
       <div className={s.descriptionBlock}>
         <img alt={"ava"} src={props.profile.photos.large} />
-        <ProfileStatus
+        <ProfileStatusWitchHooc
           status={props.status}
           updateStatus={props.updateStatus}
         />
