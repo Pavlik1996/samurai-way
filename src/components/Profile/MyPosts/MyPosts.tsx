@@ -44,10 +44,11 @@ const AddNewPostFormRedux = reduxForm<valueType>({
   form: "MyPostFormRedux",
 })(AddNewPostForm);
 
-export const MyPosts = (props: MyPostsType) => {
-  const postsElements = props.posts.map((p) => (
-    <Post key={p.id} message={p.messages} likeCount={p.like} />
-  ));
+export const MyPosts = React.memo((props: MyPostsType) => {
+
+  const postsElements = [...props.posts]
+    .reverse()
+    .map(p => <Post key={p.id} message={p.messages} likeCount={p.like} />)
 
   const onAddPost = (value: valueType) => {
     props.addPost(value.myPostMessage);
@@ -62,4 +63,4 @@ export const MyPosts = (props: MyPostsType) => {
       <div className={s.posts}>{postsElements}</div>
     </div>
   );
-};
+});
