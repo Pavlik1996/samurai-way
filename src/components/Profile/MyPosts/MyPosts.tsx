@@ -22,9 +22,7 @@ type valueType = {
 
 const maxLength10 = maxLengthCreator(10);
 
-const AddNewPostForm: React.FC<InjectedFormProps<valueType>> = ({
-  handleSubmit,
-}) => {
+const AddNewPostForm: React.FC<InjectedFormProps<valueType>> = ({handleSubmit}) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Field
@@ -40,9 +38,7 @@ const AddNewPostForm: React.FC<InjectedFormProps<valueType>> = ({
   );
 };
 
-const AddNewPostFormRedux = reduxForm<valueType>({
-  form: "MyPostFormRedux",
-})(AddNewPostForm);
+const AddNewPostFormRedux = reduxForm<valueType>({form: "MyPostFormRedux"})(AddNewPostForm);
 
 export const MyPosts = React.memo((props: MyPostsType) => {
 

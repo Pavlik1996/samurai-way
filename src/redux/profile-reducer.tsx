@@ -36,10 +36,7 @@ let initialState: ProfilePageType = {
   status: "",
 };
 
-export const profileReducer = (
-  state: ProfilePageType = initialState,
-  action: ActionsTypeProfile
-): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypeProfile): ProfilePageType => {
   switch (action.type) {
     case "ADD-POST":
       const newPost: PostsType = {
@@ -57,6 +54,9 @@ export const profileReducer = (
     case "SET-STATUS": {
       return { ...state, status: action.status };
     }
+    case "DELETE-POST": {
+      return {...state, posts: state.posts.filter(el => el.id !== action.prostId)}
+    }
     default:
       return state;
   }
@@ -65,7 +65,8 @@ export const profileReducer = (
 export type ActionsTypeProfile =
   | ReturnType<typeof addPostAC>
   | ReturnType<typeof setUserProfile>
-  | ReturnType<typeof setStatus>;
+  | ReturnType<typeof setStatus>
+  | ReturnType<typeof deletePost>;
 
 export const addPostAC = (myPostMessage: string) => {
   return {
@@ -87,6 +88,14 @@ export const setStatus = (status: string) => {
     status,
   } as const;
 };
+
+export const deletePost = (prostId: number) => {
+  return {
+    type: "DELETE-POST",
+    prostId,
+  } as const;
+};
+
 
 export const getStatus =
   (userId: string) => (dispatch: Dispatch<ActionsTypeProfile>) => {
