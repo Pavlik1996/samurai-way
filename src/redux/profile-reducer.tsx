@@ -28,10 +28,7 @@ let initialState: ProfilePageType = {
     lookingForAJobDescription: "не ищу, а дурачусь",
     fullName: "samurai dimych",
     userId: 27631,
-    photos: {
-      small: "",
-      large: "",
-    },
+    photos: {small: "", large: ""},
   },
   status: "",
 };
