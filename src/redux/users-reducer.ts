@@ -1,5 +1,7 @@
+import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
-import { userAPI } from "../api/api";
+import {  ResponceType, userAPI } from "../api/api";
+import { updateObjectInArray } from "../utils/object-helper";
 
 export type UserPageType = {
   items: UsersType[];
@@ -33,25 +35,18 @@ const initialState: UserPageType = {
   isFollowing: [],
 };
 
-export const usersReducer = (
-  state: UserPageType = initialState,
-  action: ActionsTypeUsers
-): UserPageType => {
+export const usersReducer = (state: UserPageType = initialState, action: ActionsTypeUsers): UserPageType => {
   switch (action.type) {
     case "FOLLOW": {
       return {
         ...state,
-        items: state.items.map((el) =>
-          el.id === action.payload.id ? { ...el, followed: true } : el
-        ),
+        items: updateObjectInArray(state.items, action.payload.id, {followed: true})
       };
     }
     case "UN-FOLLOW": {
       return {
         ...state,
-        items: state.items.map((el) =>
-          el.id === action.payload.id ? { ...el, followed: false } : el
-        ),
+        items: updateObjectInArray(state.items, action.payload.id, {followed: false})
       };
     }
     case "SET-USERS": {
@@ -137,38 +132,34 @@ export const toggleIsFollowing = (isFollowing: boolean, id: number) => {
   } as const;
 };
 
-export const getUsers = (currentPage: number, pageSize: number) => {
-  return (dispatch: Dispatch<ActionsTypeUsers>) => {
-    dispatch(setIsFetching(true));
-    dispatch(setCurrentPage(currentPage))
-    userAPI.getUsers(currentPage, pageSize).then((r) => {
-      dispatch(setIsFetching(false));
-      dispatch(setUsers(r.data.items));
-      dispatch(setTotalUsersCount(r.data.totalCount));
-    });
-  };
+export const getUsers = (currentPage: number, pageSize: number) => async (dispatch: Dispatch<ActionsTypeUsers>) => {
+  dispatch(setIsFetching(true));
+  dispatch(setCurrentPage(currentPage))
+  const r = await userAPI.getUsers(currentPage, pageSize)
+  dispatch(setIsFetching(false));
+  dispatch(setUsers(r.data.items));
+  dispatch(setTotalUsersCount(r.data.totalCount));
 };
 
-export const follow = (id: number) => {
-  return (dispatch: Dispatch<ActionsTypeUsers>) => {
-    dispatch(toggleIsFollowing(true, id));
-    userAPI.follow(id).then((r) => {
-      if (r.data.resultCode === 0) {
-        dispatch(acceptFollow(id));
-      }
-      dispatch(toggleIsFollowing(false, id));
-    });
-  };
+const followUnfollowFlow = async (
+  dispatch: Dispatch<ActionsTypeUsers>, 
+  id: number, 
+  apiMethod: (id: number) => Promise<AxiosResponse<ResponceType<{ resultCode: number; }>, any>>,
+  actionCreator: (id: number) => ActionsTypeUsers
+  ) => {
+
+  dispatch(toggleIsFollowing(true, id));
+  const r = await apiMethod(id)
+  if (r.data.resultCode === 0) {
+    dispatch(actionCreator(id));
+  }
+  dispatch(toggleIsFollowing(false, id));
+}
+
+export const follow = (id: number) =>  (dispatch: Dispatch<ActionsTypeUsers>) => {
+  followUnfollowFlow(dispatch, id, userAPI.follow.bind(userAPI), acceptFollow)
 };
 
-export const unFollow = (id: number) => {
-  return (dispatch: Dispatch<ActionsTypeUsers>) => {
-    dispatch(toggleIsFollowing(true, id));
-    userAPI.unFollow(id).then((r) => {
-      if (r.data.resultCode === 0) {
-        dispatch(acceptUnFollow(id));
-      }
-      dispatch(toggleIsFollowing(false, id));
-    });
-  };
+export const unFollow = (id: number) =>  (dispatch: Dispatch<ActionsTypeUsers>) => {
+  followUnfollowFlow(dispatch, id, userAPI.unFollow.bind(userAPI), acceptUnFollow)
 };

@@ -24,36 +24,20 @@ type mapStateToPropsType = {
   isAuth: boolean;
 };
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div>
-        <Field
-          placeholder={"email"}
-          name={"email"}
-          component={Input}
-          validate={[required]}
-        />
+        <Field placeholder={"email"} name={"email"} component={Input} validate={[required]}/>
       </div>
       <div>
-        <Field
-          placeholder={"Password"}
-          name={"password"}
-          component={Input}
-          validate={[required]}
-          type={"password"}
-        />
+        <Field placeholder={"Password"} name={"password"} component={Input} validate={[required]} type={"password"}/>
       </div>
       <div>
-        <Field
-          component={Input}
-          name={"rememberme"}
-          type={"checkbox"}
-          // validate={[required]}
-        />
+        <Field component={Input} name={"rememberme"} type={"checkbox"}/>
         <span>remember me</span>
       </div>
-      {props.error && <div className={s.formSummaryError}>{props.error}</div>}
+      {error && <div className={s.formSummaryError}>{error}</div>}
       <div>
         <button>Login</button>
       </div>

@@ -2,13 +2,13 @@ import axios from "axios";
 import { ProfileInfoType } from "../redux/store";
 import { UsersType } from "../redux/users-reducer";
 
-type PostDeleteType = {
+export type ResponceType<D = {}> = {
   resultCode: number;
   messages: string[];
-  data: {};
+  data: D
 };
 
-type UpdateStatus = PostDeleteType;
+type UpdateStatus = ResponceType;
 
 type MeAuthType = {
   data: {
@@ -56,10 +56,10 @@ export const userAPI = {
     );
   },
   follow(id: number) {
-    return instance.post<PostDeleteType>(`follow/${id}`);
+    return instance.post<ResponceType<{resultCode: number}>>(`follow/${id}`);
   },
   unFollow(id: number) {
-    return instance.delete<PostDeleteType>(`follow/${id}`);
+    return instance.delete<ResponceType<{resultCode: number}>>(`follow/${id}`);
   },
 };
 
