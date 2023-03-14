@@ -33,6 +33,7 @@ class App extends React.Component<PropsType>{
         <HeaderContainer />
         <Nav />
         <div className={"app-wrapper-content"}>
+
           <Route path="/profile/:userId?" render={() => <ProfileComponent />} />
           <Route path="/dialogs" render={() => <DialogsComponent />} />
           <Route path="/news" render={() => <News />} />
@@ -40,6 +41,7 @@ class App extends React.Component<PropsType>{
           <Route path="/settings" render={() => <Settings />} />
           <Route path="/users" render={() => <UserComponent />} />
           <Route path="/login" render={() => <Login />} />
+          
         </div>
       </div>
   }
