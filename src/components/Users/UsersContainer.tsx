@@ -35,11 +35,13 @@ type mapStateToDispatchType = {
 
 class UserContainer extends React.Component<PropsUsersType> {
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.currentPage);
+        const {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize);
     }
 
     onClickHandlerChangePage = (page: number) => {
-        this.props.getUsers(page, this.props.currentPage);
+        const {currentPage} = this.props
+        this.props.getUsers(page, currentPage);
     };
 
     render() {
@@ -60,19 +62,6 @@ class UserContainer extends React.Component<PropsUsersType> {
         );
     }
 }
-
-// const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
-//     return {
-//         items: state.usersPage.items,
-//         pageSize: state.usersPage.pageSize,
-//         totalCount: state.usersPage.totalCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         isFollowing: state.usersPage.isFollowing,
-//         isAuth: state.auth.isAuth,
-//     };
-// };
-
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {

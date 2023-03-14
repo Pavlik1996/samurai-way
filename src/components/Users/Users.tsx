@@ -1,8 +1,7 @@
 import React from "react";
-import s from "./users.module.css";
-import userPhoto from "../../assets/images/user.jpg";
-import { NavLink } from "react-router-dom";
 import { UsersType } from "../../redux/users-reducer";
+import { Paginagor } from "../common/Paginator/Paginator";
+import { User } from "./User";
 
 type PropsUsersType = {
   items: UsersType[];
@@ -15,57 +14,20 @@ type PropsUsersType = {
   isFollowing: number[];
 };
 
-export const Users = (props: PropsUsersType) => {
-  // let pagesCount = Math.ceil(props.totalCount / props.pageSize);
-  let pages = [];
-  for (let i = 1; i <= 30; i++) {
-    pages.push(i);
-  }
-  return (
-    <div>
-      <div>
-        {pages.map((el) => {
-          return (
-            <span
-              key={el}
-              onClick={() => props.onClickHandlerChangePage(el)}
-              className={props.currentPage === el ? s.selected : ""}
-            >
-              {` ${el} `}
-            </span>
-          );
-        })}
-      </div>
-      {props.items.map((el) => (
-        <div key={el.id} style={{ display: "flex" }}>
-          <NavLink to={"/profile/" + el.id}>
-            <img
-              alt={"ava"}
-              className={s.userPhoto}
-              src={el.photos.small !== null ? el.photos.small : userPhoto}
-            />
-          </NavLink>
+export const Users: React.FC<PropsUsersType> = ({
+  items, pageSize, totalCount, follow, unFollow, currentPage, onClickHandlerChangePage, isFollowing
+}) => {
 
-          <div>
-            {el.followed ? (
-              <button
-                disabled={props.isFollowing.some((id) => id === el.id)}
-                onClick={() => props.unFollow(el.id)}
-              >
-                UnFollow
-              </button>
-            ) : (
-              <button
-                disabled={props.isFollowing.some((id) => id === el.id)}
-                onClick={() => props.follow(el.id)}
-              >
-                Follow
-              </button>
-            )}
-          </div>
-          {el.name}
-        </div>
-      ))}
-    </div>
+  return (
+    <>
+      <Paginagor onClickHandlerChangePage={onClickHandlerChangePage} currentPage={currentPage} />
+      {items.map(user => <User
+        follow={follow}
+        isFollowing={isFollowing}
+        unFollow={unFollow}
+        user={user}
+        key={user.id} />
+      )}
+    </>
   );
 };

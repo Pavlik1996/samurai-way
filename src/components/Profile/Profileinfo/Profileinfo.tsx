@@ -1,7 +1,6 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import { ProfileInfoType } from "../../../redux/store";
-import { ProfileStatus } from "./ProfileStatus";
 import { ProfileStatusWitchHooc } from "./ProfileStatusWitchHooc";
 
 type ProfileType = {
@@ -10,14 +9,14 @@ type ProfileType = {
   updateStatus: (status: string) => void;
 };
 
-const ProfileInfo = (props: ProfileType) => {
+const ProfileInfo: React.FC<ProfileType> = ({profile, status, updateStatus}) => {
   return (
     <div>
       <div className={s.descriptionBlock}>
-        <img alt={"ava"} src={props.profile.photos.large} />
+        <img alt={"ava"} src={profile.photos.large} />
         <ProfileStatusWitchHooc
-          status={props.status}
-          updateStatus={props.updateStatus}
+          status={status}
+          updateStatus={updateStatus}
         />
       </div>
     </div>

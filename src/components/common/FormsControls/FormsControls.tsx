@@ -1,11 +1,12 @@
+import { Field } from "redux-form";
 import s from "./FormsControls.module.css";
 
-const FromControl = ({ input, meta, elemet, ...props }: any) => {
-  const hasError = meta.touched && meta.error;
+const FromControl = ({  meta: { touched, error }, children}: any) => {
+  const hasError = touched && error;
   return (
     <div className={s.formControl + " " + (hasError ? s.error : "")}>
-      <div>{props.children}</div>
-      {hasError && <span>{meta.error}</span>}
+      <div>{children}</div>
+      {hasError && <span>{error}</span>}
     </div>
   );
 };
@@ -27,3 +28,16 @@ export const Input = (props: any) => {
     </FromControl>
   );
 };
+
+
+export const createFiled = (
+  placeholder: string | null,
+  name: string,
+  component: (props: any) => JSX.Element,
+  validate: (value: string) => "Filed is requared" | undefined,
+  props?: any
+) => (
+  <div>
+    <Field placeholder={placeholder} name={name} component={component} validate={[validate]} {...props} />
+  </div>
+)

@@ -5,7 +5,7 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { login, logOut } from "../../redux/auth-reducer";
 import { AppStateType } from "../../redux/redux-store";
 import { required } from "../../utils/validators/validators";
-import { Input } from "../common/FormsControls/FormsControls";
+import { createFiled, Input } from "../common/FormsControls/FormsControls";
 import s from "../common/FormsControls/FormsControls.module.css";
 
 export type FormDataType = {
@@ -24,19 +24,13 @@ type mapStateToPropsType = {
   isAuth: boolean;
 };
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
+export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({ handleSubmit, error }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <Field placeholder={"email"} name={"email"} component={Input} validate={[required]}/>
-      </div>
-      <div>
-        <Field placeholder={"Password"} name={"password"} component={Input} validate={[required]} type={"password"}/>
-      </div>
-      <div>
-        <Field component={Input} name={"rememberme"} type={"checkbox"}/>
-        <span>remember me</span>
-      </div>
+      {createFiled("email", "email", Input, required)}
+      {createFiled("Password", "password", Input, required, { type: "password" })}
+      <span>remember Me</span>
+      {createFiled(null, "rememberme", Input, required, { type: "checkbox" })}
       {error && <div className={s.formSummaryError}>{error}</div>}
       <div>
         <button>Login</button>
