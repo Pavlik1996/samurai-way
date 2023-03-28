@@ -12,6 +12,7 @@ import thunkMiddleware, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
 import { ActionTypes } from "./store";
 import { Appreducer } from "./app-reducer";
+import { useDispatch } from "react-redux";
 
 let reducers = combineReducers({
   profilePage: profileReducer,
@@ -33,7 +34,10 @@ export let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 export type AppDispatch = ThunkDispatch<RootState, unknown, ActionTypes>
 
-export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+
+// export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionTypes>
 

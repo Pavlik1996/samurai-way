@@ -1,12 +1,17 @@
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import { useFormik } from "formik";
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { login, logOut } from "../../redux/auth-reducer";
-import { AppStateType } from "../../redux/redux-store";
-import { required } from "../../utils/validators/validators";
-import { createFiled, Input } from "../common/FormsControls/FormsControls";
-import s from "../common/FormsControls/FormsControls.module.css";
+import { AppStateType, useAppDispatch } from "../../redux/redux-store";
 
 export type FormDataType = {
   email: string;
@@ -14,54 +19,76 @@ export type FormDataType = {
   rememberme: boolean;
 };
 
-type LoginType = {
-  login: (email: string, password: string, rememberMe: boolean) => void;
-  logOut: () => void;
-  isAuth: boolean;
-};
+export const Logintwo = () => {
 
-type mapStateToPropsType = {
-  isAuth: boolean;
-};
+  const dispatch = useAppDispatch()
+  const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({ handleSubmit, error }) => {
-  return (
-    <form onSubmit={handleSubmit}>
-      {createFiled("email", "email", Input, required)}
-      {createFiled("Password", "password", Input, required, { type: "password" })}
-      <span>remember Me</span>
-      {createFiled(null, "rememberme", Input, required, { type: "checkbox" })}
-      {error && <div className={s.formSummaryError}>{error}</div>}
-      <div>
-        <button>Login</button>
-      </div>
-    </form>
-  );
-};
+  const formik = useFormik({
+    validate: (values) => {
+        if (!values.email) {
+            return {
+                email: 'Email is required'
+            }
+        }
+        if (!values.password) {
+            return {
+                password: 'Password is required'
+            }
+        }
 
-const LoginReduxForm = reduxForm<FormDataType>({
-  form: "login", // уникальное строкове имя
-})(LoginForm);
+    },
+    initialValues: {
+        email: '',
+        password: '',
+        rememberMe: false
+    },
+    onSubmit: values => {
+      dispatch(login(values.email, values.password, values.rememberMe))
+    },
+})
 
-export const Login = (props: LoginType) => {
-  const onSubmit = (fromData: FormDataType) => {
-    props.login(fromData.email, fromData.password, fromData.rememberme);
-  };
-
-  if (props.isAuth) {
-    return <Redirect to={"/profile"} />;
-  }
+if (isAuth) {
+  return <Redirect to={"/profile"} />;
+}
 
   return (
-    <div>
-      <h2>Login</h2>
-      <LoginReduxForm onSubmit={onSubmit} />
-    </div>
-  );
-};
+     <Grid container justifyContent="center">
+        <Grid item xs={4}>
+            <form onSubmit={formik.handleSubmit}>
+                <FormControl>
+                    <FormLabel>
+                        <p> Email: free@samuraijs.com</p>
+                        <p>Password: free</p>
+                    </FormLabel>
+                    <FormGroup>
+                        <TextField
+                            label="Email"
+                            margin="normal"
+                            {...formik.getFieldProps("email")}
+                        />
+                        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                        <TextField
+                            type="password"
+                            label="Password"
+                            margin="normal"
+                            {...formik.getFieldProps("password")}
+                        />
+                        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                        <FormControlLabel
+                            label={'Remember me'}
+                            control={<Checkbox
+                                {...formik.getFieldProps("rememberMe")}
+                                checked={formik.values.rememberMe}
+                            />}
+                        />
+                        <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
+                    </FormGroup>
+                </FormControl>
+            </form>
+        </Grid>
+    </Grid>
+  ) 
+}
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
-  isAuth: state.auth.isAuth,
-});
 
-export default connect(mapStateToProps, { login, logOut })(Login);

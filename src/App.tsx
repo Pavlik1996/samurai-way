@@ -9,12 +9,13 @@ import { UserComponent } from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import { DialogsComponent } from "./components/Dialogs/DialogsContainer";
 import { ProfileComponent } from "./components/Profile/ProfileContainer";
-import Login from "./components/Login/Login";
+// import Login from "./components/Login/Login";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { initializeApp } from "./redux/app-reducer";
 import { AppStateType } from "./redux/redux-store";
 import { Preloader } from "./components/common/Preloader/Preloader";
+import { Logintwo } from "./components/Login/Login";
 
 type PropsType = {
   initializeApp: () => void
@@ -40,7 +41,7 @@ class App extends React.Component<PropsType>{
           <Route path="/music" render={() => <Music />} />
           <Route path="/settings" render={() => <Settings />} />
           <Route path="/users" render={() => <UserComponent />} />
-          <Route path="/login" render={() => <Login />} />
+          <Route path="/login" render={() => <Logintwo />} />
           
         </div>
       </div>
