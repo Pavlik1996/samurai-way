@@ -50,6 +50,7 @@ describe("ProfileStatus component", () => {
         const mackCallback = jest.fn()
         const component = create(<ProfileStatus status={'111'} updateStatus={mackCallback}/>)
         const instance = component.getInstance();
+        //@ts-ignore
         instance.diActivateEditMode()
         expect(mackCallback.mock.calls.length).toBe(1)
     })
