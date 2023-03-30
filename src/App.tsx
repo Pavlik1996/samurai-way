@@ -1,26 +1,35 @@
 import React, {FC, lazy} from "react";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
-import {Music} from "./components/Music/Music";
+import HeaderContainer from "./components/Header/HeaderContainer"
 import {BrowserRouter, Route, withRouter} from "react-router-dom";
-import {News} from "./components/News/News";
-import {UserComponent} from "./components/Users/UsersContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import {AppStateType, store} from "./redux/redux-store";
 import {Preloader} from "./components/common/Preloader/Preloader";
-import {Logintwo} from "./components/Login/Login";
 
 const DialogsComponent = lazy(() => import('./components/Dialogs/DialogsContainer')
     .then(module => ({default: module.DialogsComponent})))
+
 const ProfileComponent = lazy(() => import("./components/Profile/ProfileContainer")
     .then(module => ({default: module.ProfileComponent})))
+
 const Settings = lazy(() => import("./components/Settings/Settings")
     .then(module => ({default: module.Settings})))
 
-// import {DialogsComponent} from "./components/Dialogs/DialogsContainer";
+const News = lazy(() => import("./components/News/News")
+    .then(module => ({default: module.News})))
+
+const Music = lazy(() => import("./components/Music/Music")
+    .then(module => ({default: module.Music})))
+
+const Logintwo = lazy(() => import("./components/Login/Login")
+    .then(module => ({default: module.Logintwo})))
+
+const UserComponent = lazy(() => import("./components/Users/UsersContainer")
+    .then(module => ({default: module.UserComponent})))
+
 
 
 type PropsType = {

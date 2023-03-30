@@ -1,6 +1,5 @@
 import React from "react";
 import {UsersType} from "../../redux/users-reducer";
-// import { Paginagor } from "../common/Paginator/Paginator";
 import {User} from "./User";
 import {Pagination, Select} from '@mui/material'
 
