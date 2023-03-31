@@ -82,5 +82,4 @@ export const UserComponent = compose(
         toggleIsFollowing,
         getUsers,
     }),
-    witchAuthRedirect
 )(UserContainer);

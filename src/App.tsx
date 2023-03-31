@@ -2,7 +2,7 @@ import React, {FC, lazy} from "react";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
 import HeaderContainer from "./components/Header/HeaderContainer"
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
@@ -75,9 +75,9 @@ export const AppComponent = compose<FC>(connect(mapStateToProps, {initializeApp}
 export const SamuraiJSApp = () => {
     return (
         <Provider store={store}>
-            <BrowserRouter>
+            <HashRouter>
                 <AppComponent/>
-            </BrowserRouter>
+            </HashRouter>
         </Provider>
     )
 }
