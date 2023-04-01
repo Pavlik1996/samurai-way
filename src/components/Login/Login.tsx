@@ -6,89 +6,125 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import React from "react";
-import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { login, logOut } from "../../redux/auth-reducer";
-import { AppStateType, useAppDispatch } from "../../redux/redux-store";
+import {useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
+import {login, logOut} from "../../redux/auth-reducer";
+import {AppStateType, useAppDispatch} from "../../redux/redux-store";
+import {SubmitHandler, useForm, Controller} from "react-hook-form";
 
 export type FormDataType = {
-  email: string;
-  password: string;
-  rememberme: boolean;
+    login: string, password: string, rememberme: boolean
 };
 
 export const Logintwo = () => {
 
-  const dispatch = useAppDispatch()
-  const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
+    const dispatch = useAppDispatch()
+    const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
 
-  const formik = useFormik({
-    validate: (values) => {
-        if (!values.email) {
-            return {
-                email: 'Email is required'
-            }
-        }
-        if (!values.password) {
-            return {
-                password: 'Password is required'
-            }
-        }
+    // const formik = useFormik({
+    //     validate: (values) => {
+    //         if (!values.email) {
+    //             return {
+    //                 email: 'Email is required'
+    //             }
+    //         }
+    //         if (!values.password) {
+    //             return {
+    //                 password: 'Password is required'
+    //             }
+    //         }
+    //
+    //     },
+    //     initialValues: {
+    //         email: '',
+    //         password: '',
+    //         rememberMe: false
+    //     },
+    //     onSubmit: values => {
+    //         dispatch(login(values.email, values.password, values.rememberMe))
+    //     },
+    // })
 
-    },
-    initialValues: {
-        email: '',
-        password: '',
-        rememberMe: false
-    },
-    onSubmit: values => {
-      dispatch(login(values.email, values.password, values.rememberMe))
-    },
-})
+    const {register, formState: {errors}, handleSubmit, reset, control} = useForm<FormDataType>({
+        mode: 'onBlur'
+    })
 
-if (isAuth) {
-  return <Redirect to={"/profile"} />;
-}
 
-  return (
-     <Grid container justifyContent="center">
-        <Grid item xs={4}>
-            <form onSubmit={formik.handleSubmit}>
-                <FormControl>
-                    <FormLabel>
-                        <p> Email: free@samuraijs.com</p>
-                        <p>Password: free</p>
-                    </FormLabel>
-                    <FormGroup>
-                        <TextField
-                            label="Email"
-                            margin="normal"
-                            {...formik.getFieldProps("email")}
-                        />
-                        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
-                        <TextField
-                            type="password"
-                            label="Password"
-                            margin="normal"
-                            {...formik.getFieldProps("password")}
-                        />
-                        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
-                        <FormControlLabel
-                            label={'Remember me'}
-                            control={<Checkbox
-                                {...formik.getFieldProps("rememberMe")}
-                                checked={formik.values.rememberMe}
-                            />}
-                        />
-                        <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
-                    </FormGroup>
-                </FormControl>
-            </form>
+    const onSubmit: SubmitHandler<FormDataType> = data => {
+        dispatch(login(data.login, data.password, data.rememberme))
+        reset()
+    }
+
+
+    if (isAuth) {
+        return <Redirect to={"/profile"}/>;
+    }
+
+    return (
+        <Grid container justifyContent="center">
+            <Grid item xs={4}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormControl>
+                        <FormLabel>
+                            <p> Email: free@samuraijs.com</p>
+                            <p>Password: free</p>
+                        </FormLabel>
+                        <FormGroup>
+                            <TextField
+                                {...register('login', {required: 'Required'})}
+                            />
+                            <span>
+                                {errors?.login?.message && errors.login.message}
+                            </span>
+                            <TextField
+                                type={'password'}
+                                {...register('password', {
+                                    required: 'Required',
+                                    minLength: {
+                                        value: 5,
+                                        message: 'Min five symbols'
+                                    }
+                                })}
+                            />
+                            <span>
+                                {errors.password?.message && errors.password.message}
+                            </span>
+                            <FormControlLabel
+                                label={'Remember me'}
+                                control={<Checkbox {...register('rememberme')} />}
+
+                            />
+
+                            <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
+                        </FormGroup>
+                    </FormControl>
+                </form>
+            </Grid>
+
         </Grid>
-    </Grid>
-  ) 
+    )
 }
 
-
+// <TextField
+//     label="Email"
+//     margin="normal"
+//     {...formik.getFieldProps("email")}
+// />
+// {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+// <TextField
+//     type="password"
+//     label="Password"
+//     margin="normal"
+//     {...formik.getFieldProps("password")}
+// />
+// {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+// <FormControlLabel
+//     label={'Remember me'}
+//     control={<Checkbox
+//         {...formik.getFieldProps("rememberMe")}
+//         checked={formik.values.rememberMe}
+//     />}
+// />
+// <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
