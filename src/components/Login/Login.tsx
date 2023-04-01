@@ -47,13 +47,19 @@ export const Logintwo = () => {
     //     },
     // })
 
-    const {register, formState: {errors}, handleSubmit, reset, control} = useForm<FormDataType>({
-        mode: 'onBlur'
+    const {getValues, register, formState: {errors}, handleSubmit, reset, setValue, control} = useForm<FormDataType>({
+        mode: 'onBlur',
+        defaultValues: {
+            rememberme: false,
+            password: '',
+            login: ''
+        }
     })
 
 
-    const onSubmit: SubmitHandler<FormDataType> = data => {
+    const onSubmit: SubmitHandler<any> = data => {
         dispatch(login(data.login, data.password, data.rememberme))
+        // alert(JSON.stringify(data))
         reset()
     }
 
@@ -75,9 +81,9 @@ export const Logintwo = () => {
                             <TextField
                                 {...register('login', {required: 'Required'})}
                             />
-                            <span>
+                            <div>
                                 {errors?.login?.message && errors.login.message}
-                            </span>
+                            </div>
                             <TextField
                                 type={'password'}
                                 {...register('password', {
@@ -88,15 +94,19 @@ export const Logintwo = () => {
                                     }
                                 })}
                             />
-                            <span>
+                            <div>
                                 {errors.password?.message && errors.password.message}
-                            </span>
-                            <FormControlLabel
-                                label={'Remember me'}
-                                control={<Checkbox {...register('rememberme')} />}
-
+                            </div>
+                            <Controller
+                                control={control}
+                                name={'rememberme'}
+                                render={({field: {onChange, value}}) => (
+                                    <Checkbox
+                                        onChange={onChange}
+                                        checked={value}
+                                    />
+                                )}
                             />
-
                             <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
                         </FormGroup>
                     </FormControl>
