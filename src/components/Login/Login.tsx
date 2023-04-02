@@ -66,8 +66,8 @@ export const Logintwo = () => {
                                 {...register('password', {
                                     required: 'Required',
                                     minLength: {
-                                        value: 5,
-                                        message: 'Min five symbols'
+                                        value: 4,
+                                        message: 'Min four symbols'
                                     }
                                 })}
                             />
