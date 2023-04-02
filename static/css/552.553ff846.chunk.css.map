@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/552.553ff846.chunk.css","mappings":"AAAA,wBAEI,WAAY,CADZ,UAEJ","sources":["components/Users/users.module.css"],"sourcesContent":[".userPhoto {\r\n    width: 50px;\r\n    height: 50px;\r\n}\r\n\r\n"],"names":[],"sourceRoot":""}
