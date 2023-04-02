@@ -1,94 +1,100 @@
 import axios from "axios";
-import { ProfileInfoType } from "../redux/store";
-import { UsersType } from "../redux/users-reducer";
+import {ProfileInfoType} from "../redux/store";
+import {UsersType} from "../redux/users-reducer";
+import {appendFile} from "fs";
 
 export type ResponceType<D = {}> = {
-  resultCode: number;
-  messages: string[];
-  data: D
+    resultCode: number;
+    messages: string[];
+    data: D
 };
 
 type UpdateStatus = ResponceType;
 
 type MeAuthType = {
-  data: {
-    id: number;
-    login: string;
-    email: string;
-  };
-  messages: [string];
-  fieldsErrors: [];
-  resultCode: number;
+    data: {
+        id: number;
+        login: string;
+        email: string;
+    };
+    messages: [string];
+    fieldsErrors: [];
+    resultCode: number;
 };
 
 type getUsersType = {
-  items: UsersType[];
-  totalCount: number;
-  error: null;
+    items: UsersType[];
+    totalCount: number;
+    error: null;
 };
 
 type LoginPostAuthType = {
-  resultCode: number;
-  messages: string[];
-  data: {
-    userId: number;
-  };
+    resultCode: number;
+    messages: string[];
+    data: {
+        userId: number;
+    };
 };
 
 type LoginDeleteAuthType = {
-  resultCode: number;
-  messages: string[];
-  data: {};
+    resultCode: number;
+    messages: string[];
+    data: {};
 };
 
 const instance = axios.create({
-  withCredentials: true,
-  baseURL: "https://social-network.samuraijs.com/api/1.0/",
-  headers: {
-    "API-KEY": "cee82169-26b4-4379-a726-b50e84b834c9",
-  },
+    withCredentials: true,
+    baseURL: "https://social-network.samuraijs.com/api/1.0/",
+    headers: {
+        "API-KEY": "cee82169-26b4-4379-a726-b50e84b834c9",
+    },
 });
 
 export const userAPI = {
-  getUsers(currentPage: number, pageSize: number) {
-    return instance.get<getUsersType>(
-      `users?page=${currentPage}& count=${pageSize}`
-    );
-  },
-  follow(id: number) {
-    return instance.post<ResponceType<{resultCode: number}>>(`follow/${id}`);
-  },
-  unFollow(id: number) {
-    return instance.delete<ResponceType<{resultCode: number}>>(`follow/${id}`);
-  },
+    getUsers(currentPage: number, pageSize: number) {
+        return instance.get<getUsersType>(
+            `users?page=${currentPage}& count=${pageSize}`
+        );
+    },
+    follow(id: number) {
+        return instance.post<ResponceType<{ resultCode: number }>>(`follow/${id}`);
+    },
+    unFollow(id: number) {
+        return instance.delete<ResponceType<{ resultCode: number }>>(`follow/${id}`);
+    },
 };
 
 export const profileAPI = {
-  getProfile(userId: string) {
-    return instance.get<ProfileInfoType>(`profile/${userId}`);
-  },
-  getStatus(userId: string) {
-    return instance.get<string>(`/profile/status/${userId}`);
-  },
-  updateStatus(status: string) {
-    return instance.put<UpdateStatus>(`/profile/status`, {
-      status: status,
-    });
-  },
+    getProfile(userId: string) {
+        return instance.get<ProfileInfoType>(`profile/${userId}`);
+    },
+    getStatus(userId: string) {
+        return instance.get<string>(`/profile/status/${userId}`);
+    },
+    updateStatus(status: string) {
+        return instance.put<UpdateStatus>(`/profile/status`, {
+            status: status,
+        });
+    },
+    savePhoto(file: any) {
+        const formData = new FormData()
+        formData.append('image', file)
+        return instance.put<ResponceType<{ small: string, large: string }>>('profile/photo', formData, {headers: {'Content-Type': 'multipart/form-data'}})
+    }
 };
 
 export const authAPI = {
-  me() {
-    return instance.get<MeAuthType>("auth/me");
-  },
-  login(email: string, password: string, rememberMe: boolean = false) {
-    return instance.post<LoginPostAuthType>("/auth/login", {
-      email,
-      password,
-      rememberMe,
-    });
-  },
-  logOut() {
-    return instance.delete<LoginDeleteAuthType>("/auth/login");
-  },
+    me() {
+        return instance.get<MeAuthType>("auth/me");
+    },
+    login(email: string, password: string, rememberMe: boolean = false) {
+        return instance.post<LoginPostAuthType>("/auth/login", {
+            email,
+            password,
+            rememberMe,
+        });
+    },
+    logOut() {
+        return instance.delete<LoginDeleteAuthType>("/auth/login");
+    },
 };
