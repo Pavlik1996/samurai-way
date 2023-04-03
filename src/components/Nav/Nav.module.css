@@ -11,8 +11,7 @@
     text-decoration: none;
 }
 
-
 .active {
-    color: greenyellow;
-    text-decoration: none
+    color: black;
+    text-decoration: none;
 }

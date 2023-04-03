@@ -21,14 +21,18 @@ const ProfileInfo: React.FC<ProfileType> = ({profile, status, updateStatus, isOw
         }
     }
 
+    debugger
 
     return (
         <div>
             <div className={s.descriptionBlock}>
+
                 <img alt={"ava"} src={profile.photos.large || userPhoto} className={s.mainPhoto}/>
+
                 {
                     isOwner && <input type={'file'} onChange={onChangeHandler}/>
                 }
+
                 <ProfileStatusWitchHooc
                     status={status}
                     updateStatus={updateStatus}

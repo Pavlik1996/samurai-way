@@ -1,6 +1,6 @@
 import React from "react";
 import {Dispatch} from "redux";
-import {profileAPI} from "../api/api";
+import {profileAPI, ResultCode} from "../api/api";
 import {PostsType, ProfileInfoType, ProfilePageType} from "./store";
 
 let initialState: ProfilePageType = {
@@ -113,7 +113,7 @@ export const getStatus = (userId: string) => async (dispatch: Dispatch<ActionsTy
 
 export const updateStatus = (status: string) => async (dispatch: Dispatch<ActionsTypeProfile>) => {
     const r = await profileAPI.updateStatus(status)
-    if (r.data.resultCode === 0) dispatch(setStatus(status));
+    if (r.data.resultCode === ResultCode.OK) dispatch(setStatus(status));
 };
 
 export const getUserProfile = (userId: string) => async (dispatch: Dispatch<ActionsTypeProfile>) => {

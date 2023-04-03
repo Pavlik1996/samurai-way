@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
 import {stopSubmit} from "redux-form";
-import {authAPI} from "../api/api";
+import {authAPI, ResultCode} from "../api/api";
 import {AppDispatch} from "./redux-store";
-
+import {FormDataType} from "../components/Login/Login";
 
 type DataType = {
     id: number | null;
@@ -17,7 +17,9 @@ export type stateProfileType = {
 
 const initialState: stateProfileType = {
     data: {
-        email: null, id: null, login: null
+        email: null,
+        id: null,
+        login: null
     },
     isAuth: false
 };
@@ -55,7 +57,7 @@ export const setAuthUserData = (
 
 export const getAuthUserData = () => async (dispatch: Dispatch<AuthActionsType>) => {
     const r = await authAPI.me();
-    if (r.data.resultCode === 0) {
+    if (r.data.resultCode === ResultCode.OK) {
         let {id, login, email} = r.data.data;
         dispatch(setAuthUserData(id, login, email, true));
     }
@@ -63,9 +65,10 @@ export const getAuthUserData = () => async (dispatch: Dispatch<AuthActionsType>)
 
 
 export const login =
-    (email: string, password: string, rememberMe: boolean) => async (dispatch: AppDispatch) => {
-        const r = await authAPI.login(email, password, rememberMe);
-        if (r.data.resultCode === 0) {
+    (data: FormDataType) => async (dispatch: AppDispatch) => {
+
+        const r = await authAPI.login(data);
+        if (r.data.resultCode === ResultCode.OK) {
              dispatch(getAuthUserData());
         } else {
             let message =
@@ -77,7 +80,7 @@ export const login =
 
 export const logOut = () => async (dispatch: Dispatch<ReturnType<typeof setAuthUserData>>) => {
     const r = await authAPI.logOut()
-    if (r.data.resultCode === 0) {
+    if (r.data.resultCode === ResultCode.OK) {
         dispatch(setAuthUserData(null, null, null, false));
     }
 };

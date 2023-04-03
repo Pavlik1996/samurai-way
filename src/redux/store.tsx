@@ -28,7 +28,7 @@ export type ProfilePageType = {
 };
 
 export type ProfileInfoType = {
-  aboutMe: string;
+  aboutMe: string | null;
   contacts: {
     facebook: string;
     website: null;

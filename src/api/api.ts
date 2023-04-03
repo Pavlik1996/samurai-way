@@ -1,46 +1,7 @@
 import axios from "axios";
 import {ProfileInfoType} from "../redux/store";
 import {UsersType} from "../redux/users-reducer";
-import {appendFile} from "fs";
-
-export type ResponceType<D = {}> = {
-    resultCode: number;
-    messages: string[];
-    data: D
-};
-
-type UpdateStatus = ResponceType;
-
-type MeAuthType = {
-    data: {
-        id: number;
-        login: string;
-        email: string;
-    };
-    messages: [string];
-    fieldsErrors: [];
-    resultCode: number;
-};
-
-type getUsersType = {
-    items: UsersType[];
-    totalCount: number;
-    error: null;
-};
-
-type LoginPostAuthType = {
-    resultCode: number;
-    messages: string[];
-    data: {
-        userId: number;
-    };
-};
-
-type LoginDeleteAuthType = {
-    resultCode: number;
-    messages: string[];
-    data: {};
-};
+import {FormDataType} from "../components/Login/Login";
 
 const instance = axios.create({
     withCredentials: true,
@@ -52,15 +13,13 @@ const instance = axios.create({
 
 export const userAPI = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get<getUsersType>(
-            `users?page=${currentPage}& count=${pageSize}`
-        );
+        return instance.get<getUsersType>(`users?page=${currentPage}& count=${pageSize}`);
     },
     follow(id: number) {
-        return instance.post<ResponceType<{ resultCode: number }>>(`follow/${id}`);
+        return instance.post<ResponseType<{ resultCode: number }>>(`follow/${id}`);
     },
     unFollow(id: number) {
-        return instance.delete<ResponceType<{ resultCode: number }>>(`follow/${id}`);
+        return instance.delete<ResponseType<{ resultCode: number }>>(`follow/${id}`);
     },
 };
 
@@ -72,29 +31,54 @@ export const profileAPI = {
         return instance.get<string>(`/profile/status/${userId}`);
     },
     updateStatus(status: string) {
-        return instance.put<UpdateStatus>(`/profile/status`, {
+        return instance.put<ResponseType>(`/profile/status`, {
             status: status,
         });
     },
     savePhoto(file: any) {
         const formData = new FormData()
         formData.append('image', file)
-        return instance.put<ResponceType<{ small: string, large: string }>>('profile/photo', formData, {headers: {'Content-Type': 'multipart/form-data'}})
+        return instance.put<ResponseType<ResponseDataPhoto>>('profile/photo', formData, {headers: {'Content-Type': 'multipart/form-data'}})
     }
 };
 
 export const authAPI = {
     me() {
-        return instance.get<MeAuthType>("auth/me");
+        return instance.get<ResponseType<ResponseDataMe>>("auth/me");
     },
-    login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post<LoginPostAuthType>("/auth/login", {
-            email,
-            password,
-            rememberMe,
-        });
+    login(data: FormDataType) {
+        return instance.post<ResponseType<{ userId: number }>>("/auth/login", data);
     },
     logOut() {
-        return instance.delete<LoginDeleteAuthType>("/auth/login");
+        return instance.delete<ResponseType>("/auth/login");
     },
 };
+
+
+type getUsersType = {
+    items: UsersType[];
+    totalCount: number;
+    error: null;
+};
+
+export type ResponseType<D = {}> = {
+    resultCode: number;
+    messages: string[];
+    data: D;
+}
+
+export enum ResultCode {
+    OK = 0,
+    CAPTCHA = 10
+}
+
+type ResponseDataMe = {
+    id: number,
+    email: string,
+    login: string
+}
+
+type ResponseDataPhoto = {
+    small: string,
+    large: string
+}

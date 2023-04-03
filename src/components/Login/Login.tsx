@@ -14,7 +14,9 @@ import {AppStateType, useAppDispatch} from "../../redux/redux-store";
 import {SubmitHandler, useForm, Controller} from "react-hook-form";
 
 export type FormDataType = {
-    login: string, password: string, rememberMe: boolean
+    email: string,
+    password: string,
+    rememberMe: boolean
 };
 
 export const Logintwo = () => {
@@ -22,22 +24,26 @@ export const Logintwo = () => {
     const dispatch = useAppDispatch()
     const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
 
-
-    const {register, formState: {errors}, handleSubmit, reset,  control} = useForm<FormDataType>({
+    const {register, formState: {errors}, handleSubmit, reset, control} = useForm<FormDataType>({
         mode: 'onChange',
         defaultValues: {
             rememberMe: false,
             password: '',
-            login: ''
+            email: ''
         }
     })
 
+    const onSubmit: SubmitHandler<any> = (data: FormDataType) => {
 
-    const onSubmit: SubmitHandler<any> = data => {
-        dispatch(login(data.login, data.password, data.rememberMe))
+        const dataObj: FormDataType = {
+            email: data.email,
+            password: data.password,
+            rememberMe: data.rememberMe
+        }
+
+        dispatch(login(dataObj))
         reset()
     }
-
 
     if (isAuth) {
         return <Redirect to={"/profile"}/>;
@@ -54,11 +60,11 @@ export const Logintwo = () => {
                         </FormLabel>
                         <FormGroup>
                             <TextField
-                                {...register('login', {required: 'Required'})}
+                                {...register('email', {required: 'Required'})}
                                 margin="normal"
                             />
                             <div>
-                                {errors?.login && <p>{errors?.login.message || "some error"}</p>}
+                                {errors?.email && <p>{errors?.email.message || "some error"}</p>}
                             </div>
                             <TextField
                                 type={'password'}
@@ -74,17 +80,15 @@ export const Logintwo = () => {
                             <div>
                                 {errors?.password && <p>{errors?.password.message || "some error"}</p>}
                             </div>
-
-                           <FormControlLabel
+                            <FormControlLabel
                                 label={'Remember me'}
-                                control={ <Controller
+                                control={<Controller
                                     control={control}
                                     name={'rememberMe'}
                                     render={({field: {onChange, value}}) => (
                                         <Checkbox
                                             onChange={onChange}
                                             checked={value}
-
                                         />
                                     )}
                                 />}
@@ -94,7 +98,6 @@ export const Logintwo = () => {
                     </FormControl>
                 </form>
             </Grid>
-
         </Grid>
     )
 }
