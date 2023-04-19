@@ -30,7 +30,6 @@ export type AppStateType = ReturnType<typeof reducers>;
 
 export let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
-// export type AppDispatch = typeof store.dispatch;
 
 export type AppDispatch = ThunkDispatch<RootState, unknown, ActionTypes>
 
